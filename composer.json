@@ -2,7 +2,14 @@
     "name": "jacofda/startup-preset",
     "description": "My admin css/js files ready",
     "license": "MIT",
-    "minimum-stability": "stable",
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "authors": [
+        {
+            "name": "Giacomo Gasperini",
+            "email": "giacomo.gasperini@gmail.com"
+        }
+    ],
     "require": {},
     "autoload": {
         "psr-4": {
