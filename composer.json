@@ -1,0 +1,17 @@
+{
+    "name": "jacofda/startup-preset",
+    "description": "My admin css/js files ready",
+    "license": "MIT",
+    "minimum-stability": "stable",
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "Jacofda\\StartupPreset\\": "src/"
+        }
+    }
+    "extra": {
+        "laravel": {
+            "providers": ["Jacofda\\StartupPreset\\StartupServiceProvider"]
+        }
+    }
+}
