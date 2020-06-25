@@ -8,7 +8,7 @@
         "psr-4": {
             "Jacofda\\StartupPreset\\": "src/"
         }
-    }
+    },
     "extra": {
         "laravel": {
             "providers": ["Jacofda\\StartupPreset\\StartupServiceProvider"]
