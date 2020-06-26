@@ -12,7 +12,7 @@ class StartupServiceProvider extends ServiceProvider
         PresetCommand::macro('startup', function($command){
             Preset::install();
 
-            $coomand->info('All done');
+            $command->info('All done. Make sure to require the others packages and compile your assets');
         });
     }
 }
