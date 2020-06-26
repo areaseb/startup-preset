@@ -1,0 +1,1 @@
+{!!$template->contenuto_html!!}

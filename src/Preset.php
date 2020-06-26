@@ -20,6 +20,7 @@ class Preset extends LaravelPreset
         static::generateMediaSupport();
         static::updateBaseController();
         static::insertClasses();
+        static::insertviews();
         // static::updateStyles();
     }
 
@@ -126,6 +127,12 @@ class Preset extends LaravelPreset
     public static function insertClasses()
     {
         File::copyDirectory(__DIR__.'/stubs/classes', app_path('Classes'));
+    }
+
+    public static function insertviews()
+    {
+        File::cleanDirectory(resource_path('views'));
+        File::copyDirectory(__DIR__.'/stubs/views', resource_path('views'));
     }
 
 
