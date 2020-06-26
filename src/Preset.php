@@ -21,6 +21,7 @@ class Preset extends LaravelPreset
         static::updateBaseController();
         static::insertClasses();
         static::insertviews();
+        static::insertRoutes();
         // static::updateStyles();
     }
 
@@ -135,6 +136,11 @@ class Preset extends LaravelPreset
         File::copyDirectory(__DIR__.'/stubs/views', resource_path('views'));
     }
 
+    public static function insertRoutes()
+    {
+        unlink(base_path('routes/web.php'));
+        copy(__DIR__.'/stubs/routes/web.php', base_path('routes/web.php'));
+    }
 
 
 
