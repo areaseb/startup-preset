@@ -11,6 +11,8 @@ class StartupServiceProvider extends ServiceProvider
     {
         PresetCommand::macro('startup', function($command){
             Preset::install();
+
+            $coomand->info('All done');
         });
     }
 }

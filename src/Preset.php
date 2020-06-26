@@ -10,44 +10,60 @@ class Preset extends LaravelPreset
 
     public static function install()
     {
-        static::cleanSassDirectory();
-        static::updatePackages();
+        static::moveContentsFromPublicToRoot();
+        static::copyAssetsToPublic();
         static::updateMix();
-        static::updateScripts();
-        static::updateStyles();
+        static::updateLangFolders();
+        static::updateConfigFolder();
+        // static::updateStyles();
     }
 
-    public static function cleanSassDirectory()
+    public static function moveContentsFromPublicToRoot()
     {
-        File::cleanDirectory(resource_path('assets/sass'));
+        File::cleanDirectory(public_path('assets/sass'));
+        copy(__DIR__.'/stubs/public/.htaccess', base_path('.htaccess'));
+        copy(__DIR__.'/stubs/public/index.php', base_path('index.php'));
+        copy(__DIR__.'/stubs/public/robots.txt', base_path('robots.txt'));
+        copy(__DIR__.'/stubs/public/web.config', base_path('web.config'));
     }
 
 
-    public static function updatePackageArray()
+    public static function copyAssetsToPublic()
     {
-        return [
-            'bootstrap' => '^4.5.0',
-            'popper.js' => '^1.16',
-            'jquery' => '^3.5.0',
-            'lodash' => '^4.17'
-        ];
+        File::copyDirectory(__DIR__.'/stubs/assets/fonts', public_path('fonts'));
+        File::copyDirectory(__DIR__.'/stubs/assets/webfonts', public_path('webfonts'));
+        File::copyDirectory(__DIR__.'/stubs/assets/img', public_path('img'));
+        File::copyDirectory(__DIR__.'/stubs/assets/plugins', public_path('plugins'));
     }
+
 
     public static function updateMix()
     {
         copy(__DIR__.'/stubs/webpack.mix.js', base_path('webpack.mix.js'));
     }
 
-    public static function updateScripts()
+    public static function updateLangFolders()
     {
-        copy(__DIR__.'/stubs/app.js', resource_path('js/app.js'));
-        copy(__DIR__.'/stubs/bootstrap.js', resource_path('js/bootstrap.js'));
+        File::cleanDirectory(resource_path('lang'));
+        File::copyDirectory(__DIR__.'/stubs/lang/en', resource_path('lang/en'));
+        File::copyDirectory(__DIR__.'/stubs/lang/it', resource_path('lang/it'));
     }
 
-    public static function updateStyles()
+    public static function updateConfigFolder()
     {
-        File::put(resource_path('sass/app.sass'), '');
+        unlink(base_path('config/app.php'));
+        copy(__DIR__.'/stubs/config/app.php', base_path('config/app.php'));
+
+        unlink(base_path('config/auth.php'));
+        copy(__DIR__.'/stubs/config/auth.php', base_path('config/auth.php'));
+
+        unlink(base_path('config/database.php'));
+        copy(__DIR__.'/stubs/config/database.php', base_path('config/database.php'));
+
+
     }
+
+
 
 
 }
