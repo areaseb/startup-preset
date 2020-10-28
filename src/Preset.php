@@ -35,7 +35,7 @@ class Preset extends LaravelPreset
 
     public static function copyAssetsToPublic()
     {
-        File::copyDirectory(__DIR__.'/stubs/assets/calendars', public_path('webfonts'));
+        File::copyDirectory(__DIR__.'/stubs/assets/calendars', public_path('calendars'));
         File::copyDirectory(__DIR__.'/stubs/assets/img', public_path('img'));
         File::copyDirectory(__DIR__.'/stubs/assets/plugins', public_path('plugins'));
         File::copyDirectory(__DIR__.'/stubs/assets/css', public_path('css'));
