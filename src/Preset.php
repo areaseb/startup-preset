@@ -14,21 +14,22 @@ class Preset extends LaravelPreset
         static::copyAssetsToPublic();
         // static::updateMix();
         // static::updateLangFolders();
-        static::updateConfigFolder();
+
         static::updateDatabaseFolder();
         static::updateProvidersFolder();
         static::generateMediaSupport();
-        static::updateBaseController();
+        //static::updateBaseController();
         static::insertClasses();
         static::insertViews();
         static::insertRoutes();
+        static::updateConfigFolder();
         // static::updateStyles();
     }
 
     public static function moveContentsFromPublicToRoot()
     {
         copy(__DIR__.'/stubs/public/favicon.ico', public_path('favicon.ico'));
-        copy(__DIR__.'/stubs/public/robot.txt', public_path('robot.txt'));
+        copy(__DIR__.'/stubs/public/robots.txt', public_path('robot.txt'));
     }
 
 
@@ -66,7 +67,10 @@ class Preset extends LaravelPreset
         unlink(base_path('config/database.php'));
         copy(__DIR__.'/stubs/config/database.php', config_path('database.php'));
 
-        unlink(base_path('config/logging.php'));
+        if( file_exists(base_path('config/logging.php')) )
+        {
+            unlink(base_path('config/logging.php'));
+        }
         copy(__DIR__.'/stubs/config/logging.php', config_path('logging.php'));
 
         copy(__DIR__.'/stubs/config/snappy.php', config_path('snappy.php'));
@@ -110,11 +114,19 @@ class Preset extends LaravelPreset
         ];
         foreach($directories as $directory)
         {
-            Storage::disk('local')->makeDirectory($directory);
+            if( !file_exists(storage_path('app/'.$directory) ))
+            {
+                Storage::disk('local')->makeDirectory($directory);
+            }
+
         }
 
         $mediatypes = app_path('Mediatypes');
-        File::makeDirectory($mediatypes, 0755, true);
+        if( !file_exists($mediatypes) )
+        {
+            File::makeDirectory($mediatypes, 0755, true);
+        }
+
         copy(__DIR__.'/stubs/mediatypes/MediaGeneral.php', app_path('Mediatypes/MediaGeneral.php'));
         copy(__DIR__.'/stubs/mediatypes/MediaEditor.php', app_path('Mediatypes/MediaEditor.php'));
     }

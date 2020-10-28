@@ -2,7 +2,7 @@
     "name": "jacofda/startup-preset",
     "description": "Install core functionality of CRM",
     "license": "MIT",
-    "minimum-stability": "dev",
+    "minimum-stability": "1.0",
     "prefer-stable": true,
     "authors": [
         {
