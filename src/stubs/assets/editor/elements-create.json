@@ -1,0 +1,131 @@
+{
+    "elements": [{
+        "name": "Typography",
+        "items": [{
+                "name": "Page header",
+                "icon": "fa fa-header",
+                "content": "editor/elements/page-header"
+            }, {
+                "name": "Heading",
+                "icon": "fa fa-header",
+                "content": "editor/elements/heading"
+            }, {
+                "name": "paragraph",
+                "icon": "fa fa-paragraph",
+                "content": "editor/elements/paragraph"
+            }, {
+                "name": "Image left text",
+                "icon": "fa fa-align-left ",
+                "content": "editor/elements/image-left-text"
+            }, {
+                "name": "2 column text",
+                "icon": "fa fa-columns",
+                "content": "editor/elements/2-column-text"
+            }, {
+                "name": "Image right text",
+                "icon": "fa fa-align-right",
+                "content": "editor/elements/image-right-text"
+            },
+            {
+                "name": "unordered list",
+                "icon": "fa fa-list-ul",
+                "content": "editor/elements/unordered-list"
+            }, {
+                "name": "ordered list",
+                "icon": "fa fa-list-ol",
+                "content": "editor/elements/ordered-list"
+            }, {
+                "name": "jumbotron",
+                "icon": "fa fa-header",
+                "content": "editor/elements/jumbotron"
+            }, {
+                "name": "features",
+                "icon": "fa fa-certificate",
+                "content": "editor/elements/features"
+            }, {
+                "name": "Service List",
+                "icon": "fa fa-life-ring",
+                "content": "editor/elements/service-list"
+            }, {
+                "name": "Price table",
+                "icon": "fa fa-usd",
+                "content": "editor/elements/price-table"
+            }
+        ]
+    }, {
+        "name": "Media",
+        "items": [{
+            "name": "Image",
+            "icon": "fa fa-picture-o",
+            "content": "editor/elements/image-full"
+        }, {
+            "name": "2 Image",
+            "icon": "fa fa-columns",
+            "content": "editor/elements/image-2-column"
+        }, {
+            "name": "Video",
+            "icon": "fa fa-video-camera",
+            "content": "editor/elements/video"
+        }]
+    }, {
+        "name": "Layout",
+        "items": [{
+            "name": "Divider",
+            "icon": "fa fa-minus",
+            "content": "editor/elements/divider"
+        }, {
+            "name": "Divider (dotted)",
+            "icon": "fa fa-minus",
+            "content": "editor/elements/divider-dotted"
+        }, {
+            "name": "Divider (dashed)",
+            "icon": "fa fa-minus",
+            "content": "editor/elements/divider-dashed"
+        }, {
+            "name": "View in browser",
+            "icon": "fa fa-globe",
+            "content": "editor/elements/view-browser"
+        }]
+    }, {
+        "name": "Button",
+        "items": [{
+            "name": "Button",
+            "icon": "fa fa-square-o",
+            "content": "editor/elements/button-1"
+        }, {
+            "name": "2 Button ",
+            "icon": "fa fa-square-o",
+            "content": "editor/elements/button-2"
+        }, {
+            "name": "3 Button ",
+            "icon": "fa fa-square-o",
+            "content": "editor/elements/button-3"
+        }]
+    }, {
+        "name": "Social",
+        "items": [{
+            "name": "Social links 1",
+            "icon": "fa fa-share-square-o",
+            "content": "editor/elements/social-1"
+        }, {
+            "name": "Social links 2",
+            "icon": "fa fa-share",
+            "content": "editor/elements/social-2"
+        }, {
+            "name": "Social links 3",
+            "icon": "fa fa-share-square",
+            "content": "editor/elements/social-3"
+        }]
+    }, {
+        "name": "Footer",
+        "items": [{
+            "name": "Adress",
+            "icon": "fa fa-minus",
+            "content": "editor/elements/address"
+        }, {
+            "name": "Adress with Logo",
+            "icon": "fa fa-minus",
+            "content": "editor/elements/address-logo"
+        }]
+    }]
+}

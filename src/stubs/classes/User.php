@@ -1,44 +1,48 @@
 <?php
 
-namespace App\Classes;
+namespace App;
 
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use App\Classes\Contacts\Contact;
+use Jacofda\Core\Models\{Calendar, Contact, Event};
+use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable
 {
-    use Notifiable;
+    use Notifiable, HasRoles;
 
     protected $fillable = ['email', 'password'];
     protected $hidden = ['password', 'remember_token'];
-
-    //check if current user has role
-    public function hasRole( ... $roles )
-    {
-		foreach ($roles as $role)
-        {
-			if ($this->roles->contains('slug', $role))
-            {
-				return true;
-			}
-		}
-		return false;
-	}
-
-    public function roles()
-    {
-		return $this->belongsToMany(Role::class,'role_user');
-	}
-
 
     public function contact()
     {
         return $this->hasOne(Contact::class);
     }
 
+    public function events()
+    {
+        return $this->hasMany(Event::class);
+    }
+
+    public function calendars()
+    {
+        return $this->hasMany(Calendar::class);
+    }
+
+    public function getDefaultCalendarAttribute()
+    {
+        return $this->calendars()->first();
+    }
+
     public function getFullnameAttribute()
     {
         return $this->contact->fullname;
     }
+
+    public function getUrlAttribute()
+    {
+        return url('users/'.$this->id);
+    }
+
+
 }

@@ -12,8 +12,8 @@ class Preset extends LaravelPreset
     {
         static::moveContentsFromPublicToRoot();
         static::copyAssetsToPublic();
-        static::updateMix();
-        static::updateLangFolders();
+        // static::updateMix();
+        // static::updateLangFolders();
         static::updateConfigFolder();
         static::updateDatabaseFolder();
         static::updateProvidersFolder();
@@ -27,34 +27,33 @@ class Preset extends LaravelPreset
 
     public static function moveContentsFromPublicToRoot()
     {
-        File::cleanDirectory(public_path('assets/sass'));
-        copy(__DIR__.'/stubs/public/.htaccess', base_path('.htaccess'));
-        copy(__DIR__.'/stubs/public/index.php', base_path('index.php'));
-        copy(__DIR__.'/stubs/public/robots.txt', base_path('robots.txt'));
-        copy(__DIR__.'/stubs/public/web.config', base_path('web.config'));
+        copy(__DIR__.'/stubs/public/favicon.ico', public_path('favicon.ico'));
+        copy(__DIR__.'/stubs/public/robot.txt', public_path('robot.txt'));
     }
 
 
     public static function copyAssetsToPublic()
     {
-        File::copyDirectory(__DIR__.'/stubs/assets/fonts', public_path('fonts'));
-        File::copyDirectory(__DIR__.'/stubs/assets/webfonts', public_path('webfonts'));
+        File::copyDirectory(__DIR__.'/stubs/assets/calendars', public_path('webfonts'));
         File::copyDirectory(__DIR__.'/stubs/assets/img', public_path('img'));
         File::copyDirectory(__DIR__.'/stubs/assets/plugins', public_path('plugins'));
+        File::copyDirectory(__DIR__.'/stubs/assets/css', public_path('css'));
+        File::copyDirectory(__DIR__.'/stubs/assets/js', public_path('js'));
+        File::copyDirectory(__DIR__.'/stubs/assets/editor', public_path('editor'));
     }
 
 
-    public static function updateMix()
-    {
-        copy(__DIR__.'/stubs/webpack.mix.js', base_path('webpack.mix.js'));
-    }
+    // public static function updateMix()
+    // {
+    //     copy(__DIR__.'/stubs/webpack.mix.js', base_path('webpack.mix.js'));
+    // }
 
-    public static function updateLangFolders()
-    {
-        File::cleanDirectory(resource_path('lang'));
-        File::copyDirectory(__DIR__.'/stubs/lang/en', resource_path('lang/en'));
-        File::copyDirectory(__DIR__.'/stubs/lang/it', resource_path('lang/it'));
-    }
+    // public static function updateLangFolders()
+    // {
+    //     File::cleanDirectory(resource_path('lang'));
+    //     File::copyDirectory(__DIR__.'/stubs/lang/en', resource_path('lang/en'));
+    //     File::copyDirectory(__DIR__.'/stubs/lang/it', resource_path('lang/it'));
+    // }
 
     public static function updateConfigFolder()
     {
@@ -66,15 +65,18 @@ class Preset extends LaravelPreset
 
         unlink(base_path('config/database.php'));
         copy(__DIR__.'/stubs/config/database.php', config_path('database.php'));
+
+        unlink(base_path('config/logging.php'));
+        copy(__DIR__.'/stubs/config/logging.php', config_path('logging.php'));
+
+        copy(__DIR__.'/stubs/config/snappy.php', config_path('snappy.php'));
+        copy(__DIR__.'/stubs/config/permission.php', config_path('permission.php'));
     }
 
     public static function updateDatabaseFolder()
     {
-        unlink(database_path('seeds/DatabaseSeeder.php'));
-        File::copyDirectory(__DIR__.'/stubs/database/seeds', database_path('seeds'));
-        File::cleanDirectory(database_path('migrations'));
-        File::copyDirectory(__DIR__.'/stubs/database/dumps', database_path('dumps'));
-        File::copyDirectory(__DIR__.'/stubs/database/migrations', database_path('migrations'));
+        unlink(database_path('migrations/2014_10_12_000000_create_users_table.php'));
+        copy(__DIR__.'/stubs/database/migrations/2014_10_12_000000_create_users_table.php', database_path('migrations/2014_10_12_000000_create_users_table.php'));
     }
 
     public static function updateProvidersFolder()
@@ -83,7 +85,6 @@ class Preset extends LaravelPreset
         unlink(app_path('Providers/RouteServiceProvider.php'));
         copy(__DIR__.'/stubs/providers/AppServiceProvider.php', app_path('Providers/AppServiceProvider.php'));
         copy(__DIR__.'/stubs/providers/RouteServiceProvider.php', app_path('Providers/RouteServiceProvider.php'));
-        copy(__DIR__.'/stubs/providers/RoleServiceProvider.php', app_path('Providers/RoleServiceProvider.php'));
         copy(__DIR__.'/stubs/providers/ViewServiceProvider.php', app_path('Providers/ViewServiceProvider.php'));
     }
 
@@ -94,7 +95,18 @@ class Preset extends LaravelPreset
             'public/editor/original',
             'public/editor/display',
             'public/editor/full',
-            'public/original'
+            'public/settings',
+            'public/calendars',
+            'public/fe',
+            'public/fe/inviate/2019',
+            'public/fe/inviate/2020',
+            'public/fe/inviate/2021',
+            'public/fe/ricevute/2019',
+            'public/fe/ricevute/2020',
+            'public/fe/ricevute/2021',
+            'public/fe/pdf',
+            'public/fe/pdf/inviate',
+            'public/fe/pdf/ricevute'
         ];
         foreach($directories as $directory)
         {
@@ -107,27 +119,10 @@ class Preset extends LaravelPreset
         copy(__DIR__.'/stubs/mediatypes/MediaEditor.php', app_path('Mediatypes/MediaEditor.php'));
     }
 
-    public static function updateBaseController()
-    {
-        File::cleanDirectory(app_path('Http/Controllers'));
-        $files = [
-            'Controller.php',
-            'GeneralController.php',
-            'LoginController.php',
-            'NotificationController.php',
-            'RoleController.php',
-            'SettingController.php',
-            'UserController.php'
-        ];
-        foreach($files as $file)
-        {
-            copy(__DIR__.'/stubs/controllers/'.$file, app_path('Http/Controllers/'.$file));
-        }
-    }
-
     public static function insertClasses()
     {
-        File::copyDirectory(__DIR__.'/stubs/classes', app_path('Classes'));
+        unlink(app_path('User.php'));
+        copy(__DIR__.'/stubs/classes/User.php', app_path('User.php'));
     }
 
     public static function insertViews()

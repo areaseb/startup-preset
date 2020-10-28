@@ -1,6 +1,6 @@
 {
     "name": "jacofda/startup-preset",
-    "description": "My admin css/js files ready",
+    "description": "Install core functionality of CRM",
     "license": "MIT",
     "minimum-stability": "dev",
     "prefer-stable": true,
@@ -12,11 +12,18 @@
     ],
     "require": {
         "php": ">=7.2.5",
+        "laravel/ui": "^1.0",
         "illuminate/http": "^6.0|^7.0",
         "illuminate/routing": "^6.0|^7.0",
         "illuminate/session": "^6.0|^7.0",
         "illuminate/support": "^6.0|^7.0",
-        "illuminate/view": "^6.0|^7.0"
+        "illuminate/view": "^6.0|^7.0",
+        "barryvdh/laravel-snappy": "^0.4.7",
+		"h4cc/wkhtmltopdf-amd64": "^0.12.4",
+        "intervention/image": "^2.5",
+        "laravel/helpers": "^1.2",
+        "laravelcollective/html": "^6.1",
+        "maatwebsite/excel": "^3.1"
     },
     "autoload": {
         "psr-4": {

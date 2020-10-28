@@ -52,7 +52,7 @@ Docs & License: https://fullcalendar.io/
         tableList: 'table',
         tableListHeading: 'table-active',
         buttonGroup: 'btn-group',
-        button: 'btn btn-primary',
+        button: 'btn btn-primary btn-sm',
         buttonActive: 'active',
         today: 'alert alert-info',
         popover: 'card card-primary',
