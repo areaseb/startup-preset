@@ -10,51 +10,28 @@ class Preset extends LaravelPreset
 
     public static function install()
     {
-        static::moveContentsFromPublicToRoot();
         static::copyAssetsToPublic();
-        // static::updateMix();
-        // static::updateLangFolders();
-
         static::updateDatabaseFolder();
         static::updateProvidersFolder();
         static::generateMediaSupport();
-        //static::updateBaseController();
         static::insertClasses();
-        static::insertViews();
         static::insertRoutes();
         static::updateConfigFolder();
-        // static::updateStyles();
-    }
-
-    public static function moveContentsFromPublicToRoot()
-    {
-        copy(__DIR__.'/stubs/public/favicon.ico', public_path('favicon.ico'));
-        copy(__DIR__.'/stubs/public/robots.txt', public_path('robot.txt'));
     }
 
 
     public static function copyAssetsToPublic()
     {
-        File::copyDirectory(__DIR__.'/stubs/assets/calendars', public_path('calendars'));
-        File::copyDirectory(__DIR__.'/stubs/assets/img', public_path('img'));
-        File::copyDirectory(__DIR__.'/stubs/assets/plugins', public_path('plugins'));
+        copy(__DIR__.'/stubs/public/favicon.ico', public_path('favicon.ico'));
+        copy(__DIR__.'/stubs/public/robots.txt', public_path('robots.txt'));
+        File::copyDirectory(__DIR__.'/stubs/assets/calendar', public_path('calendar'));
         File::copyDirectory(__DIR__.'/stubs/assets/css', public_path('css'));
-        File::copyDirectory(__DIR__.'/stubs/assets/js', public_path('js'));
         File::copyDirectory(__DIR__.'/stubs/assets/editor', public_path('editor'));
+        File::copyDirectory(__DIR__.'/stubs/assets/img', public_path('img'));
+        File::copyDirectory(__DIR__.'/stubs/assets/js', public_path('js'));
+        File::copyDirectory(__DIR__.'/stubs/assets/plugins', public_path('plugins'));
     }
 
-
-    // public static function updateMix()
-    // {
-    //     copy(__DIR__.'/stubs/webpack.mix.js', base_path('webpack.mix.js'));
-    // }
-
-    // public static function updateLangFolders()
-    // {
-    //     File::cleanDirectory(resource_path('lang'));
-    //     File::copyDirectory(__DIR__.'/stubs/lang/en', resource_path('lang/en'));
-    //     File::copyDirectory(__DIR__.'/stubs/lang/it', resource_path('lang/it'));
-    // }
 
     public static function updateConfigFolder()
     {
@@ -86,8 +63,8 @@ class Preset extends LaravelPreset
     public static function updateProvidersFolder()
     {
         unlink(app_path('Providers/AppServiceProvider.php'));
-        unlink(app_path('Providers/RouteServiceProvider.php'));
         copy(__DIR__.'/stubs/providers/AppServiceProvider.php', app_path('Providers/AppServiceProvider.php'));
+        unlink(app_path('Providers/RouteServiceProvider.php'));
         copy(__DIR__.'/stubs/providers/RouteServiceProvider.php', app_path('Providers/RouteServiceProvider.php'));
         copy(__DIR__.'/stubs/providers/ViewServiceProvider.php', app_path('Providers/ViewServiceProvider.php'));
     }
@@ -135,12 +112,6 @@ class Preset extends LaravelPreset
     {
         unlink(app_path('User.php'));
         copy(__DIR__.'/stubs/classes/User.php', app_path('User.php'));
-    }
-
-    public static function insertViews()
-    {
-        File::cleanDirectory(resource_path('views'));
-        File::copyDirectory(__DIR__.'/stubs/views', resource_path('views'));
     }
 
     public static function insertRoutes()
