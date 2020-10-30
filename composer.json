@@ -1,6 +1,6 @@
 {
     "name": "jacofda/startup-preset",
-    "description": "Install core functionality of CRM",
+    "description": "Install CRM Rider preset",
     "license": "MIT",
     "minimum-stability": "1.0",
     "prefer-stable": true,
