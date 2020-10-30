@@ -62,6 +62,10 @@ class Preset extends LaravelPreset
 
     public static function updateProvidersFolder()
     {
+
+        unlink(app_path('Providers/AuthServiceProvider.php'));
+        copy(__DIR__.'/stubs/providers/AuthServiceProvider.php', app_path('Providers/AuthServiceProvider.php'));
+
         unlink(app_path('Providers/AppServiceProvider.php'));
         copy(__DIR__.'/stubs/providers/AppServiceProvider.php', app_path('Providers/AppServiceProvider.php'));
         unlink(app_path('Providers/RouteServiceProvider.php'));
