@@ -2,7 +2,7 @@
     "name": "jacofda/startup-preset",
     "description": "Install CRM Rider preset",
     "license": "MIT",
-    "minimum-stability": "1.0",
+    "minimum-stability": "dev",
     "prefer-stable": true,
     "authors": [
         {
