@@ -78,8 +78,10 @@ class Preset extends LaravelPreset
         $directories = [
         	'public/editor/',
             'public/editor/original',
-            'public/editor/display',
-            'public/editor/full',
+            'public/editor/thumb',
+            'public/editor/250x150',
+            'public/editor/350x150',
+            'public/editor/600x200',
             'public/settings',
             'public/calendars',
             'public/fe',
