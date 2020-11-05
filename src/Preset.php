@@ -76,6 +76,12 @@ class Preset extends LaravelPreset
     public static function generateMediaSupport()
     {
         $directories = [
+            'public/products/',
+            'public/products/original',
+            'public/products/thumb',
+            'public/products/display',
+            'public/products/full',
+            'public/products/doc',
         	'public/editor/',
             'public/editor/original',
             'public/editor/thumb',
