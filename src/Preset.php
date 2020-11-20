@@ -46,9 +46,8 @@ class Preset extends LaravelPreset
         }
 
         copy(__DIR__.'/stubs/console/Kernel.php', app_path('Console/Kernel.php'));
-        copy(__DIR__.'/stubs/console/Commands/CalendarIcs.php', app_path('Console/Commands/CalendarIcs.php'));
-        copy(__DIR__.'/stubs/console/Commands/LogClean.php', app_path('Console/Commands/LogClean.php'));
-        copy(__DIR__.'/stubs/console/Commands/RestartQueueIf.php', app_path('Console/Commands/RestartQueueIf.php'));
+
+        File::copyDirectory(__DIR__.'/stubs/console/Commands', app_path('Console'));
     }
 
     public static function copyAssetsToPublic()
