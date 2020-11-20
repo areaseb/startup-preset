@@ -13,12 +13,43 @@ class Preset extends LaravelPreset
         static::copyAssetsToPublic();
         static::updateDatabaseFolder();
         static::updateProvidersFolder();
+        static::updateConsoleFolder();
         static::generateMediaSupport();
         static::insertClasses();
         static::insertRoutes();
         static::updateConfigFolder();
     }
 
+
+    public static function updateConsoleFolder()
+    {
+
+
+        if( file_exists(app_path('Console/Commands/CalendarIcs.php')) )
+        {
+            unlink(app_path('Console/Commands/CalendarIcs.php'));
+        }
+
+        if( file_exists(app_path('Console/Commands/LogClean.php')) )
+        {
+            unlink(app_path('Console/Commands/LogClean.php'));
+        }
+
+        if( file_exists(app_path('Console/Commands/RestartQueueIf.php')) )
+        {
+            unlink(app_path('Console/Commands/RestartQueueIf.php'));
+        }
+
+        if( file_exists(app_path('Console/Kernel.php')) )
+        {
+            unlink(app_path('Console/Kernel.php'));
+        }
+
+        copy(__DIR__.'/stubs/console/Kernel.php', app_path('Console/Kernel.php'));
+        copy(__DIR__.'/stubs/console/Commands/CalendarIcs.php', app_path('Console/Commands/CalendarIcs.php'));
+        copy(__DIR__.'/stubs/console/Commands/LogClean.php', app_path('Console/Commands/LogClean.php'));
+        copy(__DIR__.'/stubs/console/Commands/RestartQueueIf.php', app_path('Console/Commands/RestartQueueIf.php'));
+    }
 
     public static function copyAssetsToPublic()
     {
