@@ -99,7 +99,8 @@ class Preset extends LaravelPreset
             'public/fe/ricevute/2021',
             'public/fe/pdf',
             'public/fe/pdf/inviate',
-            'public/fe/pdf/ricevute'
+            'public/fe/pdf/ricevute',
+            'public/settings'
         ];
         foreach($directories as $directory)
         {

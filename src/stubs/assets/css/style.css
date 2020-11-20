@@ -36,6 +36,7 @@ background-color: inherit;
 .table-php tr th i{position:absolute;right:4%;top:25%;}
 .table tr td.editable:hover{cursor:pointer;}
 #table_wrapper{width:100%;}
+.table thead.btnone tr th{border-top-color:transparent; border-right-color:transparent; border-left-color:transparent;}
 
 /* datatables */
 .page-link{line-height:1;padding:.3rem .5rem;font-size:.85rem;margin-top:.5rem;}
