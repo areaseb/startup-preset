@@ -42,7 +42,7 @@ class RestartQueueIf extends Command
     {
         if(\DB::table('jobs')->count() > 0)
         {
-            if(Cron::latest()->first()->name == 'jobless')
+            if(Cron::latest()->first()->name != 'working')
             {
                 Artisan::call('queue:work --stop-when-empty');
             }

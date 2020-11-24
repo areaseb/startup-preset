@@ -114,7 +114,7 @@ div.dataTables_wrapper div.dataTables_info{font-size:.85rem}
 #autoComplete:focus::selection {color: #fff;background-color:#212529}
 #autoComplete:focus {color: #212529;}
 #autoComplete_list {position: absolute;z-index: 1000;padding: 0;width: auto;transition: all .1s ease-in-out;-webkit-transition: all -webkit-transform .1s ease}
-.autoComplete_result {margin: auto;padding: .3rem .6rem;border: .05rem solid #e3e3e3;list-style: none;text-align: left;font-size: 1.1rem;color: #212529;transition: all .1s ease-in-out;background-color: #fff}
+.autoComplete_result {margin: auto;padding: .3rem .6rem;border: .05rem solid #afafaf;list-style: none;text-align: left;font-size: 1.1rem;color: #212529;transition: all .1s ease-in-out;background-color: #e8e8e8}
 .autoComplete_result::selection {color: rgba(#fff, 0);background-color: rgba(#fff, 0)}
 .autoComplete_result:hover {cursor: pointer;background-color: #007bff;color:#fff;border-top: 2px solid transparent;border-bottom: 2px solid transparent}
 .autoComplete_result:focus {outline: 0;background-color: #007bff;color:#fff;border-top: 2px solid transparent;border-bottom: 2px solid transparent}
