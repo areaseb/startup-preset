@@ -1,6 +1,6 @@
 <?php
 
-namespace Jacofda\StartupPreset;
+namespace Areaseb\StartupPreset;
 
 use Illuminate\Foundation\Console\Presets\Preset as LaravelPreset;
 use Illuminate\Support\Facades\{File, Storage};

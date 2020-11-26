@@ -3,7 +3,7 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
-use Jacofda\Core\Models\Cron;
+use Areaseb\Core\Models\Cron;
 use \Carbon\Carbon;
 
 class LogClean extends Command

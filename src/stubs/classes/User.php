@@ -4,7 +4,7 @@ namespace App;
 
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Jacofda\Core\Models\{Calendar, Contact, Event};
+use Areaseb\Core\Models\{Calendar, Contact, Event};
 use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable

@@ -27,12 +27,12 @@
     },
     "autoload": {
         "psr-4": {
-            "Jacofda\\StartupPreset\\": "src/"
+            "Areaseb\\StartupPreset\\": "src/"
         }
     },
     "extra": {
         "laravel": {
-            "providers": ["Jacofda\\StartupPreset\\StartupServiceProvider"]
+            "providers": ["Areaseb\\StartupPreset\\StartupServiceProvider"]
         }
     }
 }

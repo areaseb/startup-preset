@@ -11,8 +11,8 @@
 |
 */
 
-use Jacofda\Core\Http\Middleware\SaveTracking;
-use Jacofda\Core\Http\Controllers\{LoginController, PagesController, ReportController};
+use Areaseb\Core\Http\Middleware\SaveTracking;
+use Areaseb\Core\Http\Controllers\{LoginController, PagesController, ReportController};
 
 Route::get('login', [LoginController::class, 'login'])->name('login');
 Route::post('login', [LoginController::class, 'loginPost'])->name('loginPost');
@@ -20,5 +20,5 @@ Route::post('login', [LoginController::class, 'loginPost'])->name('loginPost');
 //newsletter tracking
 Route::get('tracker', [ReportController::class, 'tracker']);
 Route::get('unsubscribe', [ReportController::class, 'unsubscribe']);
-//Route::get('prodotti', 'Jacofda\Core\Http\Controllers\PagesController@indexProdotti')->middleware(SaveTracking::class);
-//Route::get('prodotti/{id}', 'Jacofda\Core\Http\Controllers\PagesController@showProdotti')->middleware(SaveTracking::class);
+//Route::get('prodotti', 'Areaseb\Core\Http\Controllers\PagesController@indexProdotti')->middleware(SaveTracking::class);
+//Route::get('prodotti/{id}', 'Areaseb\Core\Http\Controllers\PagesController@showProdotti')->middleware(SaveTracking::class);

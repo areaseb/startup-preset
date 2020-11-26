@@ -3,7 +3,7 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
-use Jacofda\Core\Models\{Calendar, Cron};
+use Areaseb\Core\Models\{Calendar, Cron};
 
 class CalendarIcs extends Command
 {
