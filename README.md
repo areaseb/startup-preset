@@ -7,7 +7,7 @@ $ composer create-project laravel/laravel . "6.*" --prefer-dist
 
 require package
 ```sh
-$ composer require jacofda/startup-preset
+$ composer require areaseb/startup-preset
 ```
 
 create preset
