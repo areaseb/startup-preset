@@ -4,7 +4,7 @@ namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
 use \Illuminate\Support\Facades\Artisan;
-use Arease\Core\Models\Cron;
+use Areaseb\Core\Models\Cron;
 use \Carbon\Carbon;
 
 class RestartQueueIf extends Command
