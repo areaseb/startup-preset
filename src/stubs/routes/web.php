@@ -20,5 +20,4 @@ Route::post('login', [LoginController::class, 'loginPost'])->name('loginPost');
 //newsletter tracking
 Route::get('tracker', [ReportController::class, 'tracker']);
 Route::get('unsubscribe', [ReportController::class, 'unsubscribe']);
-//Route::get('prodotti', 'Areaseb\Core\Http\Controllers\PagesController@indexProdotti')->middleware(SaveTracking::class);
-//Route::get('prodotti/{id}', 'Areaseb\Core\Http\Controllers\PagesController@showProdotti')->middleware(SaveTracking::class);
+Route::get('track', [ReportController::class, 'track']);
