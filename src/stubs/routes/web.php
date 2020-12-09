@@ -21,3 +21,32 @@ Route::post('login', [LoginController::class, 'loginPost'])->name('loginPost');
 Route::get('tracker', [ReportController::class, 'tracker']);
 Route::get('unsubscribe', [ReportController::class, 'unsubscribe']);
 Route::get('track', [ReportController::class, 'track']);
+
+use Areaseb\Core\Models\{Client, Contact, NewsletterList, Setting};
+Route::get('register-lead', function(){
+
+    $url = 'https://www.'.Setting::base()->sitoweb;
+
+    $ref = request()->headers->get('referer');
+    if(strpos($ref, $url) !== false)
+    {
+        if(!Contact::where('email', request('email'))->exists())
+        {
+            $contact = new Contact;
+                $contact->email = request('email');
+                $contact->nome = request('nome');
+                $contact->cognome = request('cognome');
+                $contact->subscribed = intval(request('newsletter'));
+                $contact->origin = "Sito";
+            $contact->save();
+            $contact->clients()->attach(Client::Lead());
+
+            if(intval(request('newsletter')))
+            {
+                $list = NewsletterList::firstOrCreate(['nome' => 'Contatti da sito']);
+                $contact->lists()->attach($list->id);
+            }
+        }
+    }
+    return redirect($url.'/grazie');
+});
