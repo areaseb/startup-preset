@@ -35,7 +35,7 @@ return [
 
     'pdf' => [
         'enabled' => true,
-        'binary'  => realpath(base_path('vendor/h4cc/wkhtmltopdf-amd64/bin/wkhtmltopdf-amd64')),
+        'binary'  => '/usr/local/bin/wkhtmltopdf',
         'timeout' => false,
         'options' => [],
         'env'     => [],

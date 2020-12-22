@@ -347,3 +347,27 @@ if( $('input.input-decimal').length !== 0 )
         }
     });
 }
+
+
+if( $('input.input-float').length !== 0 )
+{
+
+    $.each($('input.input-float'), function(){
+        let price = $(this).val();
+        if(price != '')
+        {
+            price = parseFloat(price).toFixed(4);
+            $(this).val(price);
+        }
+    });
+
+    $('input.input-float').on('focusout', function(){
+        let price = $(this).val();
+        if(price != '')
+        {
+            price = price.replace(',', '.');
+            price = parseFloat(price).toFixed(4);
+            $(this).val(price);
+        }
+    });
+}
