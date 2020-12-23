@@ -41,11 +41,6 @@ background-color: inherit;
 /* datatables */
 .page-link{line-height:1;padding:.3rem .5rem;font-size:.85rem;margin-top:.5rem;}
 div.dataTables_wrapper div.dataTables_info{font-size:.85rem}
-@media(min-width:996px){
-    .page-link{line-height:1.25;padding:.5rem .75rem;font-size:1rem;margin-top:0;}
-    div.dataTables_wrapper div.dataTables_info{font-size:1rem}
-}
-
 
 .avatar{margin-left:auto; margin-right: auto;background-color: #007bff;border-radius: 100px;color:#fff;width: 50px;height:50px;font-weight: bolder;padding:14px 0; text-align: center;}
 .profile-username {font-weight: 400;}
