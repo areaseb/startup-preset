@@ -2,7 +2,7 @@
 
 return [
 
-    'iva' => env('IVA'),
+    'iva' => env('IVA', '22'),
     'debug_blacklist' => [
             '_SERVER' => array_keys($_ENV),
             '_ENV' => array_keys($_ENV),
