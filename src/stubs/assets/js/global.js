@@ -90,6 +90,10 @@ $('button.delete').on('click', function(e){
             {
                 row.remove();
             }
+            else
+            {
+                err(data);
+            }
         });
         return false;
     }
@@ -113,6 +117,10 @@ $('button.delete').on('click', function(e){
                         {
                             row.remove();
                             console.log('here row remove');
+                        }
+                        else
+                        {
+                            err(data);
                         }
                     });
                     notyConfirm.close();
@@ -349,25 +357,5 @@ if( $('input.input-decimal').length !== 0 )
 }
 
 
-if( $('input.input-float').length !== 0 )
-{
-
-    $.each($('input.input-float'), function(){
-        let price = $(this).val();
-        if(price != '')
-        {
-            price = parseFloat(price).toFixed(4);
-            $(this).val(price);
-        }
-    });
-
-    $('input.input-float').on('focusout', function(){
-        let price = $(this).val();
-        if(price != '')
-        {
-            price = price.replace(',', '.');
-            price = parseFloat(price).toFixed(4);
-            $(this).val(price);
-        }
-    });
-}
+let pass = str => new Noty({text: str, type: 'success', theme: 'bootstrap-v4'}).show();
+let err = str => new Noty({text: str, type: 'error', theme: 'bootstrap-v4'}).show();
