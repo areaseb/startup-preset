@@ -45,6 +45,12 @@ class Preset extends LaravelPreset
             unlink(app_path('Console/Kernel.php'));
         }
 
+        if( file_exists(app_path('Exceptions/Handler.php')) )
+        {
+            unlink(app_path('Exceptions/Handler.php'));
+        }
+        copy(__DIR__.'/stubs/console/Handler.php', app_path('Exceptions/Handler.php'));
+
         copy(__DIR__.'/stubs/console/Kernel.php', app_path('Console/Kernel.php'));
         File::makeDirectory(app_path('Console/Commands'));
         File::copyDirectory(__DIR__.'/stubs/console/Commands', app_path('Console/Commands'));
@@ -60,6 +66,7 @@ class Preset extends LaravelPreset
         File::copyDirectory(__DIR__.'/stubs/assets/img', public_path('img'));
         File::copyDirectory(__DIR__.'/stubs/assets/js', public_path('js'));
         File::copyDirectory(__DIR__.'/stubs/assets/plugins', public_path('plugins'));
+        File::copyDirectory(__DIR__.'/stubs/resources/exceptions', resource_path('views/exceptions'));
     }
 
 
