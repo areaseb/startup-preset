@@ -35,12 +35,16 @@ return [
     'nazione' => 'Nazione',
     'citta' => 'Città',
     'model' => 'Modello',
+    'connettore' => 'Connettore',
+    'connettore_uid' => 'Connettore uid',
+    'connettore_key' => 'Connettore key',
     'regime' => 'Regime',
     'tel' => 'Tel',
     'prov' => 'Sigla Provincia',
     'web' => 'Indirizzo Web',
     'banca' => 'Banca',
     'IBAN' => 'IBAN',
+    'SWIFT' => 'SWIFT',
     'last_receive' => 'Ultima ricezione',
     'max_receive' => 'Max chiamate per ricezione',
     'last_sync' => 'Ultima Sync',
@@ -60,6 +64,7 @@ return [
     'invia_da_email' => "Invia email da",
     'default_test_email' => "Default test email",
     'default_img_logo' => "Default Logo",
+    'unsub_notification_email' => "Email Disiscrizione",
     'default_color' => "Default Color",
 
     'rag_soc' => "Ragione Sociale",
@@ -82,5 +87,19 @@ return [
     'sure' => 'Siete sicuri?',
     'created' => 'Creato',
     'import' => 'Importa',
+
+    'MAIL_DRIVER' => 'Driver',
+    'MAIL_HOST' => 'server SMTP',
+    'MAIL_PORT' => 'porta',
+    'MAIL_USERNAME' => 'nome utente',
+    'MAIL_PASSWORD' => 'password',
+    'MAIL_ENCRYPTION' => 'crittografia',
+    'MAIL_FROM_ADDRESS' => 'spedisci con email',
+    'MAIL_FROM_NAME' => 'spedisci con nome',
+
+    'LANG_NAME' => 'Nome',
+    'LANG_ISO' => 'Codice ISO',
+    'LANG_LOCALE' => 'Locale',
+    'LANG_ACTIVE' => 'Attiva'
 
 ];
