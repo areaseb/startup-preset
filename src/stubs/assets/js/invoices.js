@@ -1,6 +1,7 @@
 var item = [];
 var items = [];
 var itemsFromDB = ($('textarea#itemsToForm').val() != '') ? JSON.parse($('textarea#itemsToForm').val()) : [];
+var itemsChildren = [];
 
 class Item
 {
@@ -207,3 +208,19 @@ const alertMe = (str) => {
         timeout: 4000,
     }).show();
 }
+
+const getCompanyLocale = (id) => {
+    return axios.get( baseURL+'api/companies/'+company+'/discount-exemption').then(function(response){
+        return response.data.lingua;
+    });
+}
+
+const getExtra = (response) => {
+    extra = {};
+    extra.c_exception = response.exemption_id+"";
+    extra.c_s1 = response.s1;
+    extra.c_s2 = response.s2;
+    extra.c_s3 = response.s3;
+    extra.locale = response.lingua;
+    return extra;
+};

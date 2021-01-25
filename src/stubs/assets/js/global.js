@@ -88,11 +88,11 @@ $('button.delete').on('click', function(e){
         $.post(url, {_token: token, _method: 'DELETE'}).done(function(data){
             if(data === 'done')
             {
+                if(card)
+                {
+                    card.remove();
+                }
                 row.remove();
-            }
-            else
-            {
-                err(data);
             }
         });
         return false;
@@ -117,10 +117,6 @@ $('button.delete').on('click', function(e){
                         {
                             row.remove();
                             console.log('here row remove');
-                        }
-                        else
-                        {
-                            err(data);
                         }
                     });
                     notyConfirm.close();
@@ -355,7 +351,6 @@ if( $('input.input-decimal').length !== 0 )
         }
     });
 }
-
 
 let pass = str => new Noty({text: str, type: 'success', theme: 'bootstrap-v4'}).show();
 let err = str => new Noty({text: str, type: 'error', theme: 'bootstrap-v4'}).show();
