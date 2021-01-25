@@ -14,7 +14,7 @@ class MediaGeneral {
         if ($width > $height)
         {
 
-            $img->fit(740, 420);
+            $img->fit(1900, 1078);
             $img->save( storage_path('app/public/'.$directory.'/full/').$filename );
 
 
