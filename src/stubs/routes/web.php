@@ -26,9 +26,16 @@ use Areaseb\Core\Models\{Client, Contact, NewsletterList, Setting};
 Route::get('register-lead', function(){
 
     $url = 'https://www.'.Setting::base()->sitoweb;
+    $urlPP = 'naturalmenteprimi';
 
     $ref = request()->headers->get('referer');
-    if(strpos($ref, $url) !== false)
+    if($ref == '')
+    {
+        $ref = request('referer');
+    }
+
+    $ref = request()->headers->get('referer');
+    if((strpos($ref, $url) !== false) || (strpos($ref, $urlPP) !== false))
     {
         if(!Contact::where('email', request('email'))->exists())
         {
@@ -36,6 +43,7 @@ Route::get('register-lead', function(){
                 $contact->email = request('email');
                 $contact->nome = request('nome');
                 $contact->cognome = request('cognome');
+                $contact->cellulare = request('telefono');
                 $contact->subscribed = intval(request('newsletter'));
                 $contact->origin = "Sito";
             $contact->save();
