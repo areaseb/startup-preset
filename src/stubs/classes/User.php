@@ -29,6 +29,25 @@ class User extends Authenticatable
         return $this->hasMany(Calendar::class);
     }
 
+    public function testimonial()
+    {
+        if(\Illuminate\Support\Facades\Schema::hasTable('testimonials'))
+        {
+            return $this->hasOne(\Areaseb\Referrals\Models\Testimonial::class);
+        }
+        return false;
+    }
+
+    public function agent()
+    {
+        if(\Illuminate\Support\Facades\Schema::hasTable('agents'))
+        {
+            return $this->hasOne(\Areaseb\Agents\Models\Agent::class);
+        }
+        return false;
+    }
+
+
     public function getDefaultCalendarAttribute()
     {
         return $this->calendars()->first();
