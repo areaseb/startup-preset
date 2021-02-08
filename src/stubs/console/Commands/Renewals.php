@@ -4,23 +4,23 @@ namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
 use Areaseb\Core\Models\Cron;
-use \Carbon\Carbon;
+use Areaseb\Renewals\Models\Renewal as RenewalModel;
 
-class LogClean extends Command
+class Renewals extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'log:clean';
+    protected $signature = 'renewals:update';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Remove old logs';
+    protected $description = 'Create New Renewals';
 
     /**
      * Create a new command instance.
@@ -39,12 +39,11 @@ class LogClean extends Command
      */
     public function handle()
     {
-        $latestReminder = Cron::where('name', '!=', 'reminder')->latest()->first();
-        Cron::truncate();
-        if(!is_null($latestReminder))
+        if(\Illuminate\Support\Facades\Schema::hasTable('renewals'))
         {
-            Cron::create(['name' => 'reminder', 'created_at' => $latestReminder->created_at, 'updated_at' => $latestReminder->updated_at]);
+            RenewalModel::updateOnInvoice();
+            $this->info('renewals updated');
+            Cron::create(['name' => 'renewals']);
         }
-        Cron::create(['name' => 'jobless']);
     }
 }
