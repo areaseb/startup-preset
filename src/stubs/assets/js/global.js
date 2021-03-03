@@ -78,6 +78,7 @@ $('button.delete').on('click', function(e){
     let form = $('#form-'+id);
     let url = form.attr('action');
     let row = $('tr#row-'+id);
+    let card = false;
     console.log(row);
     console.log(url);
 
@@ -352,5 +353,5 @@ if( $('input.input-decimal').length !== 0 )
     });
 }
 
-let pass = str => new Noty({text: str, type: 'success', theme: 'bootstrap-v4'}).show();
-let err = str => new Noty({text: str, type: 'error', theme: 'bootstrap-v4'}).show();
+let pass = str => new Noty({text: str, type: 'success', theme: 'bootstrap-v4',timeout: 4000}).show();
+let err = str => new Noty({text: str, type: 'error', theme: 'bootstrap-v4',timeout: 4000}).show();
