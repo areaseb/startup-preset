@@ -353,5 +353,26 @@ if( $('input.input-decimal').length !== 0 )
     });
 }
 
-let pass = str => new Noty({text: str, type: 'success', theme: 'bootstrap-v4',timeout: 4000}).show();
-let err = str => new Noty({text: str, type: 'error', theme: 'bootstrap-v4',timeout: 4000}).show();
+let pass = str => new Noty({text: str, type: 'success', theme: 'bootstrap-v4'}).show();
+let err = str => new Noty({text: str, type: 'error', theme: 'bootstrap-v4'}).show();
+
+
+const checkForEvents = () => {
+
+    axios.post(baseURL+'expiring-events', {_token:token}).then(function (response) {
+        if(response.data)
+        {
+            if(response.data.length){
+                for(const e in response.data)
+                {
+                    let event = response.data[e]
+                    pass(event.summary + " IN SCADENZA");
+                }
+            }
+        }
+    });
+};
+
+setInterval(function(){
+    checkForEvents();
+}, 10000);
