@@ -21,3 +21,5 @@ a {color: #007bff;}
 
 .active .page-link {color: #fff;background-color: #007bff;border-color: #007bff;}
 .page-link {color: #007bff;background-color: #fff;border: 1px solid #dee2e6;}
+
+.btn-orange{background-color: #ff9800; border-color:#ff9800;color:#222;}

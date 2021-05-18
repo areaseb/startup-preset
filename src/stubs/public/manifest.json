@@ -1,0 +1,36 @@
+{
+    "name": "Rider - The Easy CRM",
+    "short_name": "Rider CRM",
+    "theme_color": "#3C8DBC",
+    "background_color": "#3C8DBC",
+    "display": "fullscreen",
+    "start_url": "/?utm_source=homescreen",
+    "description": "Il miglior CRM che potrai mai usare !",
+    "scope": "/",
+    "icons": [
+        {
+            "src": "https://www.rider-crm.it/img/icon_512.png",
+            "sizes": "512x512",
+            "type": "image/png"
+        },
+        {
+            "src": "https://www.rider-crm.it/img/icon_180.png",
+            "sizes": "180x180",
+            "type": "image/png"
+        },
+        {
+            "src": "https://www.rider-crm.it/img/icon_192.png",
+            "sizes": "192x192",
+            "type": "image/png"
+        },
+        {
+            "src": "https://www.rider-crm.it/img/icon_32.png",
+            "sizes": "32x32",
+            "type": "image/png"
+        }
+    ],
+    "url": "https://www.rider-crm.it",
+    "lang": "Italian",
+    "screenshots": [],
+    "orientation": "any"
+}
