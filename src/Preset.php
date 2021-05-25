@@ -23,8 +23,6 @@ class Preset extends LaravelPreset
 
     public static function updateConsoleFolder()
     {
-
-
         if( file_exists(app_path('Console/Commands/CalendarIcs.php')) )
         {
             unlink(app_path('Console/Commands/CalendarIcs.php'));
@@ -59,7 +57,11 @@ class Preset extends LaravelPreset
     public static function copyAssetsToPublic()
     {
         copy(__DIR__.'/stubs/public/favicon.ico', public_path('favicon.ico'));
+        copy(__DIR__.'/stubs/public/manifest.json', public_path('manifest.json'));
+        copy(__DIR__.'/stubs/public/pwa_install.js', public_path('pwa_install.js'));
+        copy(__DIR__.'/stubs/public/pwabuilder-sw.js', public_path('pwabuilder-sw.js'));
         copy(__DIR__.'/stubs/public/robots.txt', public_path('robots.txt'));
+
         File::copyDirectory(__DIR__.'/stubs/assets/calendar', public_path('calendar'));
         File::copyDirectory(__DIR__.'/stubs/assets/css', public_path('css'));
         File::copyDirectory(__DIR__.'/stubs/assets/editor', public_path('editor'));
