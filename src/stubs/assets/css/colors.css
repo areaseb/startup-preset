@@ -23,3 +23,7 @@ a {color: #007bff;}
 .page-link {color: #007bff;background-color: #fff;border: 1px solid #dee2e6;}
 
 .btn-orange{background-color: #ff9800; border-color:#ff9800;color:#222;}
+.btn-purple{background-color: #6f42c1; border-color:#6f42c1;color:#fff;}
+.btn-purple:hover{color:#fff;}
+
+.btn-pink{background-color: #EFBFFF; border-color:#EFBFFF;color:#222;}
