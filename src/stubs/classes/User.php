@@ -4,7 +4,7 @@ namespace App;
 
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Areaseb\Core\Models\{Calendar, Contact, Event};
+use Areaseb\Core\Models\{Calendar, Contact, Event, Notification};
 use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable
@@ -27,6 +27,11 @@ class User extends Authenticatable
     public function calendars()
     {
         return $this->hasMany(Calendar::class);
+    }
+
+    public function notifications()
+    {
+        return $this->hasMany(Notification::class);
     }
 
     public function testimonial()
