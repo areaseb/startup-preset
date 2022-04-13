@@ -58,3 +58,7 @@ Route::get('register-lead', function(){
     }
     return redirect($url.'/grazie');
 });
+
+
+Route::get('addevent/{token}', [\Areaseb\Core\Http\Controllers\EventController::class, 'createFromToken']);
+Route::post('addevent/{token}', [\Areaseb\Core\Http\Controllers\EventController::class, 'storeFromToken']);
