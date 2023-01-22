@@ -16,7 +16,7 @@
         "illuminate/http": "^6.0|^7.0",
         "illuminate/routing": "^6.0|^7.0",
         "illuminate/session": "^6.0|^7.0",
-        "illuminate/support": "^6.0|^7.0",
+        "illuminate/support": "^6.0|^7.0|^9.0",
         "illuminate/view": "^6.0|^7.0|^9.0",
         "barryvdh/laravel-snappy": "^0.4.7",
 		"h4cc/wkhtmltopdf-amd64": "^0.12.4",
