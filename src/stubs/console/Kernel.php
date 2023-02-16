@@ -16,6 +16,8 @@ class Kernel extends ConsoleKernel
         Commands\CalendarIcs::class,
         Commands\LogClean::class,
         Commands\RestartQueueIf::class,
+        Commands\InvoiceSync::class,
+        Commands\InvoiceReceive::class
     ];
 
     /**
@@ -26,8 +28,19 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
+
+        $schedule->command('invoice:sync')
+                 ->weekdays()
+                 ->hourly()
+                 ->between('8:00', '20:00');
+
+        $schedule->command('invoice:receive')
+                 ->weekdays()
+                 ->hourly()
+                 ->between('8:00', '20:00');
+
         $schedule->command('calendar:ics')
-                 ->hourly();
+                 ->everyFifteenMinutes();
 
         $schedule->command('log:clean')
                 ->daily();

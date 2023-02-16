@@ -39,12 +39,6 @@ class LogClean extends Command
      */
     public function handle()
     {
-        $latestReminder = Cron::where('name', '!=', 'reminder')->latest()->first();
-        Cron::truncate();
-        if(!is_null($latestReminder))
-        {
-            Cron::create(['name' => 'reminder', 'created_at' => $latestReminder->created_at, 'updated_at' => $latestReminder->updated_at]);
-        }
-        Cron::create(['name' => 'jobless']);
+        Cron::where('created_at', '<', Carbon::now()->subDays(2))->delete();
     }
 }
