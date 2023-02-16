@@ -1,8 +1,8 @@
 {
     "name": "areaseb/startup-preset",
     "description": "Install CRM Rider preset",
-    "prefer-stable": false,
-    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "minimum-stability": "stable",
     "license": "MIT",
     "authors": [
         {
