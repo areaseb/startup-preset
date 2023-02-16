@@ -3,7 +3,7 @@
     "description": "Install CRM Rider preset",
     "license": "MIT",
     "minimum-stability": "dev",
-    "prefer-stable": true,
+    "prefer-stable": false,
     "authors": [
         {
             "name": "Davide Moscheni",
