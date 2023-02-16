@@ -1,9 +1,9 @@
 {
     "name": "areaseb/startup-preset",
     "description": "Install CRM Rider preset",
-    "prefer-stable": true,
-    "minimum-stability": "stable",
     "license": "MIT",
+    "minimum-stability": "stable",
+    "prefer-stable": true,
     "authors": [
         {
             "name": "Davide Moscheni",
@@ -11,7 +11,14 @@
         }
     ],
     "require": {
-    	"php": "^8.0.2"
+        "laravel/ui": "^3.4",
+        "spatie/laravel-permission": "^5.5.3",
+        "barryvdh/laravel-snappy": "^1.0.0",
+		"h4cc/wkhtmltopdf-amd64": "^0.12.4",
+        "intervention/image": "^2.7",
+        "laravel/helpers": "^1.5",
+        "laravelcollective/html": "^6.3",
+        "maatwebsite/excel": "^3.1"
     },
     "autoload": {
         "psr-4": {
