@@ -146,12 +146,40 @@ div.dataTables_wrapper div.dataTables_info{font-size:.85rem}
 .autoComplete_highlighted {opacity: 1;color: #000;font-weight: 700}
 .autoComplete_highlighted::selection {color: rgba(#fff, 0);background-color: rgba(#fff, 0)}
 .autoComplete_selected {cursor: pointer;background-color: #007bff;border-top: 2px solid transparent;border-bottom: 2px solid transparent; color:#fff;}
+
+#autoCompleteContacts_wrapper {position: relative;display: inline-block}
+#autoCompleteContacts {font-family: "Source Sans Pro",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol";position: relative;padding: .375rem .75rem;width: 100%;outline: 0;border-radius: .25rem;border: 1px solid #ced4da;caret-color: #212529;color: #212529;width:70%;transition: all .4s ease;-webkit-transition: all -webkit-transform .4s ease;text-overflow: ellipsis}
+#autoCompleteContacts::placeholder {color: #777;transition: all .3s ease}
+#autoCompleteContacts:hover::placeholder {color: #999;}
+#autoCompleteContacts:focus::placeholder {color: #999;}
+#autoCompleteContacts::selection {color: transparent}
+#autoCompleteContacts:focus::selection {color: #fff;background-color:#212529}
+#autoCompleteContacts:focus {color: #212529;}
+#autoCompleteContacts_list {position: absolute;z-index: 1000;padding: 0;width: auto;transition: all .1s ease-in-out;-webkit-transition: all -webkit-transform .1s ease}
+.autoCompleteContacts_result {margin: auto;padding: .3rem .6rem;border: .05rem solid #afafaf;list-style: none;text-align: left;font-size: 1.1rem;color: #212529;transition: all .1s ease-in-out;background-color: #e8e8e8}
+.autoCompleteContacts_result::selection {color: rgba(#fff, 0);background-color: rgba(#fff, 0)}
+.autoCompleteContacts_result:hover {cursor: pointer;background-color: #007bff;color:#fff;border-top: 2px solid transparent;border-bottom: 2px solid transparent}
+.autoCompleteContacts_result:focus {outline: 0;background-color: #007bff;color:#fff;border-top: 2px solid transparent;border-bottom: 2px solid transparent}
+.autoCompleteContacts_highlighted {opacity: 1;color: #000;font-weight: 700}
+.autoCompleteContacts_highlighted::selection {color: rgba(#fff, 0);background-color: rgba(#fff, 0)}
+.autoCompleteContacts_selected {cursor: pointer;background-color: #007bff;border-top: 2px solid transparent;border-bottom: 2px solid transparent; color:#fff;}
+
 .form-group.ta{margin-bottom:0;position:relative}
 .form-group.ta a.reset{position:absolute;border-bottom-left-radius: 0;border-top-left-radius: 0;right:-3px;}
 
 .select2-container--bootstrap4 .select2-results__group {color: #000000;margin-left: 10px;}
 
-
+svg {
+    width: 15px;
+  }
+  
+  p.text-sm{
+      display: none;
+  }
+  
+  div.justify-between{
+      display: none;
+  }
 
 
 /* RESPPONSIVE */
