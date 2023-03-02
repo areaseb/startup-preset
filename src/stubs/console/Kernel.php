@@ -40,7 +40,7 @@ class Kernel extends ConsoleKernel
                  ->between('8:00', '20:00');
 
         $schedule->command('calendar:ics')
-                 ->everyFifteenMinutes();
+                 ->everyFiveMinutes();
 
         $schedule->command('log:clean')
                 ->daily();
