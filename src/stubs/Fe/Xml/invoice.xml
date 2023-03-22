@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<p:FatturaElettronica xmlns:ds="http://www.w3.org/2000/09/xmldsig#" xmlns:p="http://ivaservizi.agenziaentrate.gov.it/docs/xsd/fatture/v1.2" versione="$ver$">
+<FatturaElettronicaHeader>
+	<DatiTrasmissione>
+		<IdTrasmittente>
+			<IdPaese></IdPaese>
+			<IdCodice></IdCodice>
+		</IdTrasmittente>
+		<ProgressivoInvio></ProgressivoInvio>
+		<FormatoTrasmissione>FPR12</FormatoTrasmissione>
+		<CodiceDestinatario>0000000</CodiceDestinatario>
+	</DatiTrasmissione>
+	<CedentePrestatore>
+		<DatiAnagrafici>
+			<IdFiscaleIVA>
+				<IdPaese></IdPaese>
+				<IdCodice></IdCodice>
+			</IdFiscaleIVA>
+			<Anagrafica>
+				<Denominazione></Denominazione>
+			</Anagrafica>
+			<RegimeFiscale></RegimeFiscale>
+		</DatiAnagrafici>
+		<Sede>
+			<Indirizzo></Indirizzo>
+			<CAP></CAP>
+			<Comune></Comune>
+			<Provincia></Provincia>
+			<Nazione></Nazione>
+		</Sede>
+	</CedentePrestatore>
+	<CessionarioCommittente>
+		<DatiAnagrafici>
+		</DatiAnagrafici>
+		<Sede>
+			<Indirizzo></Indirizzo>
+			<CAP></CAP>
+			<Comune></Comune>
+		</Sede>
+	</CessionarioCommittente>
+</FatturaElettronicaHeader>
+<FatturaElettronicaBody>
+	<DatiGenerali>
+		<DatiGeneraliDocumento>
+			<TipoDocumento></TipoDocumento>
+			<Divisa>EUR</Divisa>
+			<Data></Data>
+			<Numero></Numero>
+		</DatiGeneraliDocumento>
+	</DatiGenerali>
+	<DatiBeniServizi>
+	</DatiBeniServizi>
+    <DatiPagamento>
+		<CondizioniPagamento></CondizioniPagamento>
+    </DatiPagamento>
+</FatturaElettronicaBody>
+</p:FatturaElettronica>

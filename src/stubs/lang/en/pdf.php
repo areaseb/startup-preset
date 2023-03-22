@@ -1,0 +1,28 @@
+<?php
+
+return [
+    'date' => 'Date',
+    'piva' => 'VAT Number',
+    'sdi' => 'SDI code',
+    'reference' => 'Reference',
+    'payment_type' => 'Payment Type',
+    'description' => 'Description',
+    'quantity' => 'Quantity',
+    'price' => 'Price',
+    'sale' => 'Sale',
+    'tot_riga' => 'Subtot',
+    'IVA' => 'VAT',
+    'domain' => 'Domain',
+    'period' => 'Period',
+    'imponibile' => 'Taxable',
+    'ritenuta' => 'Withholding',
+    'tot_ritenuta' => 'Tot. withholding',
+    'vat_summary' => 'VAT Summary',
+    'spese' => 'Collection expenses',
+    'vat_total' => 'VAT total',
+    'to_be_paid' => 'To be paid',
+    'scadenze_importo' => 'Installment due dates and relative amount',
+    'phone' => 'Telefono',
+    'spett' => 'Respectable',
+    'Fattura' => 'Invoice',
+];

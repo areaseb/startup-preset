@@ -1,0 +1,28 @@
+<?php
+
+return [
+    'date' => 'Data',
+    'piva' => 'P.IVA / C.F.',
+    'sdi' => 'Codice SDI',
+    'reference' => 'Riferimento',
+    'payment_type' => 'Tipo di pagamento',
+    'description' => 'Descrizione',
+    'quantity' => 'Quantità',
+    'price' => 'Prezzo',
+    'sale' => 'Sale',
+    'tot_riga' => 'Tot.riga',
+    'IVA' => 'IVA',
+    'dominio' => 'Dominio',
+    'periodo' => 'Periodo',
+    'imponibile' => 'Imponibile',
+    'ritenuta' => 'Ritenuta',
+    'tot_ritenuta' => 'Tot. ritenuta',
+    'vat_summary' => 'Riepilogo IVA',
+    'spese' => 'Spese di incasso',
+    'vat_total' => 'Totale IVA',
+    'to_be_paid' => 'Netto a pagare',
+    'scadenze_importo' => 'Scadenze rate e relativo importo',
+    'phone' => 'Phone',
+    'spett' => 'Spett',
+    'Fattura' => 'Fattura',
+];
