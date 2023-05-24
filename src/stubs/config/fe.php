@@ -17,7 +17,7 @@ return [
         3 => "Inviata",
         4 => "Scartata",
         5 => "Non consegnata",
-        6 => "Recapito ipossibile",
+        6 => "Recapito impossibile",
         7 => "Consegnata",
         8 => "Accettata",
         9 => "Rifiutata",
