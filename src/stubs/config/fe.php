@@ -23,6 +23,19 @@ return [
         9 => "Rifiutata",
         10 => "Decorrenza termini"
     ],
+    'status_feic' => [
+        0 => "not_sent",
+        1 => "attempt",
+        2 => "error",
+        3 => "sent",
+        4 => "discarded",
+        5 => "not_delivered",
+        6 => "missing",
+        7 => "accepted",
+        8 => "accepted",
+        9 => "rejected",
+        10 => "no_response"
+    ],
     'payment_methods' => [
         "RIDI" => "MP01",
         "ASSE" => "MP02",

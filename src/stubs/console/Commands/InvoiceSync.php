@@ -4,6 +4,8 @@ namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
 use App\Fe\Actions\Sync;
+use App\FeiC\Actions\Sync as FeiCSync;
+use Areaseb\Core\Models\Setting;
 
 class InvoiceSync extends Command
 {
@@ -38,7 +40,16 @@ class InvoiceSync extends Command
      */
     public function handle()
     {
-        (new Sync)->init();
+        $settings = Setting::fe();
+
+        if ($settings->connettore == 'Aruba') {
+            (new Sync)->init();
+        } else if ($settings->connettore == 'Fatture in Cloud') {
+            (new FeiCSync)->sync();
+        } else {
+            $this->error('Modulo FE non impostato');
+        }
+
         $this->info('sincronizzazione completata');
     }
 }

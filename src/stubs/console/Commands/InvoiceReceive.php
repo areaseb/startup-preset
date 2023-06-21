@@ -4,6 +4,9 @@ namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
 use App\Fe\Actions\Receive;
+use App\FeiC\Actions\Receive as FeiCReceive;
+use App\FeiC\FeiC;
+use Areaseb\Core\Models\Setting;
 
 class InvoiceReceive extends Command
 {
@@ -38,7 +41,16 @@ class InvoiceReceive extends Command
      */
     public function handle()
     {
-        (new Receive)->init();
+        $settings = Setting::fe();
+
+        if ($settings->connettore == 'Aruba') {
+            (new Receive)->init();
+        } else if ($settings->connettore == 'Fatture in Cloud') {
+            (new FeiCReceive)->receive();
+        } else {
+            $this->error('Modulo FE non impostato');
+        }
+
         $this->info('ricezione completata');
     }
 }

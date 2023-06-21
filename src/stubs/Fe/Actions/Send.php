@@ -422,7 +422,7 @@ class Send extends Primitive
             $rate = explode(',', $this->invoice->rate);
             $n_rate = count($rate);
             $total = $this->decimal($this->invoice->total);
-            $amount_rata = $this->decimal($total / 3);
+            $amount_rata = $this->decimal($total / $n_rate);
             $amount_payed = 0;
 
             $DatiPagamento->CondizioniPagamento = 'TP01';
@@ -452,11 +452,11 @@ class Send extends Primitive
             $linea->addChild('ModalitaPagamento', $this->payment_methods[$this->invoice->pagamento]);
             $linea->addChild('DataScadenzaPagamento', $this->invoice->data_scadenza->format('Y-m-d'));
             $linea->addChild('ImportoPagamento', $this->decimal($this->invoice->total));
-            if ($this->cedente->IBAN != '')
-            {
-                $linea->addChild('IBAN', str_replace(' ', '', $this->cedente->IBAN));
-            }
+        }
 
+        if ($this->cedente->IBAN != '')
+        {
+            $linea->addChild('IBAN', str_replace(' ', '', $this->cedente->IBAN));
         }
     }
 
