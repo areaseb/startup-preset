@@ -9,7 +9,7 @@ return [
     'description' => 'Descrizione',
     'quantity' => 'Quantità',
     'price' => 'Prezzo',
-    'sale' => 'Sale',
+    'sale' => 'Sconto',
     'tot_riga' => 'Tot.riga',
     'IVA' => 'IVA',
     'dominio' => 'Dominio',
