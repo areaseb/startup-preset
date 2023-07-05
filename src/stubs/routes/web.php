@@ -59,6 +59,12 @@ Route::get('register-lead', function(){
     return redirect($url.'/grazie');
 });
 
+Route::get('pdf-footer', function(){
+    return view('areaseb::pdf.invoices.footer');
+})->name('pdf.footer');
+Route::get('pdf-header', function(){
+    return view('areaseb::pdf.invoices.header');
+})->name('pdf.header');
 
 Route::get('addevent/{token}', [\Areaseb\Core\Http\Controllers\EventController::class, 'createFromToken']);
 Route::post('addevent/{token}', [\Areaseb\Core\Http\Controllers\EventController::class, 'storeFromToken']);
