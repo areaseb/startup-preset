@@ -156,10 +156,20 @@ class Receive extends Primitive
         $imponibile = 0;
         $iva = 0;
         $perc_iva = 0;
+        $cassa = 0;
+        $ritenuta = 0;
         foreach ($xml->FatturaElettronicaBody->DatiBeniServizi->DatiRiepilogo as $dr)
         {
             $imponibile += floatval($dr->ImponibileImporto);
             $iva += floatval($dr->Imposta);
+        }
+        if(isset($xml->FatturaElettronicaBody->DatiGenerali->DatiGeneraliDocumento->DatiRitenuta))
+        {
+            $ritenuta += floatval($xml->FatturaElettronicaBody->DatiGenerali->DatiGeneraliDocumento->DatiRitenuta->ImportoRitenuta);
+        }
+        if(isset($xml->FatturaElettronicaBody->DatiGenerali->DatiGeneraliDocumento->DatiCassaPrevidenziale))
+        {
+            $cassa += floatval($xml->FatturaElettronicaBody->DatiGenerali->DatiGeneraliDocumento->DatiCassaPrevidenziale->ImportoContributoCassa);
         }
 
         // $imponibile = abs($imponibile);
@@ -169,7 +179,8 @@ class Receive extends Primitive
         {
             $perc_iva = (100 * abs($iva)) / abs($imponibile);
         }
-        $totale = $imponibile + $iva;
+        $totale = $imponibile + $cassa + $iva - $ritenuta;
+        $netto = $imponibile + $cassa + $iva;
 
         //nota di accredito
         if ($xml->FatturaElettronicaBody->DatiGenerali->DatiGeneraliDocumento->TipoDocumento == "TD04")
@@ -235,7 +246,10 @@ class Receive extends Primitive
             "data" => $date->format('d/m/Y'),
             "imponibile" => $this->decimal($imponibile),
             "iva" => $this->decimal($iva),
+            "cassa" => $this->decimal($cassa),
+            "ritenuta" => $this->decimal($ritenuta),
             "totale" => $this->decimal($totale),
+            "netto" => $this->decimal($netto),
             "data_scadenza" => $scadenza->format('d/m/Y'),
             "rate" => ($rate == '') ? null : $rate,
             "fe_id" => $this->getCodeFromFilename($filename)
