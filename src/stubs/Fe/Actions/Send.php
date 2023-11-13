@@ -328,22 +328,12 @@ class Send extends Primitive
             //$descrizione = $item->product->nome . ' ' .$item->descrizione;
 
             $descrizione = $item->descrizione;
-            if($descrizione == '')
+            if(is_null($item->descrizione) || $item->descrizione == '')
             {
-                $descrizione = $item->product->nome . ' ' .$item->dominio;
-                if($item->date_out)
-                {
-                    $descrizione .= ' da ' . $item->date_in->format('d/m/Y') . ' a ' . $item->date_out->format('d/m/Y');
-                }
+                $descrizione =  $item->product->nome;
             }
-            else
-            {
-                $descrizione = $item->product->nome . ' ' .$item->dominio;
-                if($item->date_out)
-                {
-                    $descrizione .= ' da ' . $item->date_in->format('d/m/Y') . ' a ' . $item->date_out->format('d/m/Y') . ' ' . $item->descrizione;
-                }
-            }
+            
+            $descrizione = $this->cleanDescription($descrizione);
 
             $linea = $DatiBeniServizi->addChild('DettaglioLinee');
             $linea->addChild('NumeroLinea', ($n+1));
@@ -412,6 +402,20 @@ class Send extends Primitive
             }
         }
 
+    }
+    
+    public function cleanDescription($str)
+    {
+        $str = str_replace('€', 'EUR', $str);
+        $str = str_replace('£', 'GBP', $str);
+        $str = str_replace('$', 'USD', $str);
+        $str = str_replace('©',' Copyright', $str);
+        $str = str_replace('®', ' Registered', $str);
+        $str = str_replace('™',' Trademark', $str);
+        $str = str_replace('&',' e ', $str);
+        $str = str_replace('&',' e ', $str);
+        $str = str_replace('’', "'", $str);
+        return $str;
     }
 
     public function datiPagamento($body)
