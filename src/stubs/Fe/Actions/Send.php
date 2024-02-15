@@ -428,8 +428,13 @@ class Send extends Primitive
         }
 
     }
+<<<<<<< HEAD
 	
 	public function cleanDescription($str)
+=======
+    
+    public function cleanDescription($str)
+>>>>>>> 888c9c5b5d2b35ba7fb8f17f578083e2ec25a381
     {
         $str = str_replace('€', 'EUR', $str);
         $str = str_replace('£', 'GBP', $str);
@@ -442,7 +447,11 @@ class Send extends Primitive
         $str = str_replace('’', "'", $str);
         return $str;
     }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 888c9c5b5d2b35ba7fb8f17f578083e2ec25a381
     public function datiPagamento($body)
     {
         $DatiPagamento = $body->DatiPagamento;
