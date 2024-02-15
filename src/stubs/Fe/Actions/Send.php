@@ -39,7 +39,11 @@ class Send extends Primitive
 
             try
             {
-                $template = $this->xml->createXml();
+            	if($this->invoice->tipo_doc == 'Pu'){
+                	$template = $this->xml->createXml('FPA12');
+                } else {
+                	$template = $this->xml->createXml($this->version);
+                }
                 $header = $template->FatturaElettronicaHeader;
                 $body = $template->FatturaElettronicaBody;
 
@@ -49,7 +53,7 @@ class Send extends Primitive
                     $this->datiGeneraliDocumento($body);
                     $this->datiBeniServizi($body);
                     $this->datiPagamento($body);
-
+//dd($this->xml->saveXml($template, 'inviate'));
 
                 $fcResponse = (new FatturaCheck(['xml' => $template]))->init();
 
@@ -202,7 +206,13 @@ class Send extends Primitive
         }
 
         $DatiTrasmissione->ProgressivoInvio = $this->invoice->id;
-        $DatiTrasmissione->FormatoTrasmissione = $this->version;
+        if($this->invoice->tipo_doc == 'Pu')
+        {
+            $DatiTrasmissione->FormatoTrasmissione = 'FPA12';
+        } else {
+        	$DatiTrasmissione->FormatoTrasmissione = $this->version;
+        }
+        
 
         return true;
     }
@@ -286,7 +296,12 @@ class Send extends Primitive
 
         if(intval($this->invoice->numero))
         {
-            $DatiGeneraliDocumento->Numero = 'FPR '.$this->invoice->numero.'/'.$this->invoice->data->format('y');
+        	if($this->invoice->tipo_doc == 'Pu')
+	        {
+	            $DatiGeneraliDocumento->Numero = 'FPA '.$this->invoice->numero.'/'.$this->invoice->data->format('y');
+	        } else {
+	        	$DatiGeneraliDocumento->Numero = 'FPR '.$this->invoice->numero.'/'.$this->invoice->data->format('y');
+	        }            
         }
         else
         {
@@ -304,15 +319,15 @@ class Send extends Primitive
 
         if ($this->invoice->pa_n_doc)
         {
-            $linea = $DatiGeneraliDocumento->addChild('DatiOrdineAcquisto');
-            $linea->addChild('IdDocumento', $this->invoice->pa_n_doc);
+            $DatiGeneraliDocumento = $body->DatiGenerali->addChild('DatiOrdineAcquisto');
+            $DatiGeneraliDocumento->addChild('IdDocumento', $this->invoice->pa_n_doc);
             if ($this->invoice->pa_cup)
             {
-                $linea->addChild('CodiceCUP', $this->invoice->pa_cup);
+                $DatiGeneraliDocumento->addChild('CodiceCUP', $this->invoice->pa_cup);
             }
             if ($this->invoice->pa_cig)
             {
-                $linea->addChild('CodiceCIG', $this->invoice->pa_cig);
+                $DatiGeneraliDocumento->addChild('CodiceCIG', $this->invoice->pa_cig);
             }
         }
     }
@@ -328,22 +343,12 @@ class Send extends Primitive
             //$descrizione = $item->product->nome . ' ' .$item->descrizione;
 
             $descrizione = $item->descrizione;
-            if($descrizione == '')
+            if(is_null($item->descrizione) || $item->descrizione == '')
             {
-                $descrizione = $item->product->nome . ' ' .$item->dominio;
-                if($item->date_out)
-                {
-                    $descrizione .= ' da ' . $item->date_in->format('d/m/Y') . ' a ' . $item->date_out->format('d/m/Y');
-                }
+                $descrizione =  $item->product->nome;
             }
-            else
-            {
-                $descrizione = $item->product->nome . ' ' .$item->dominio;
-                if($item->date_out)
-                {
-                    $descrizione .= ' da ' . $item->date_in->format('d/m/Y') . ' a ' . $item->date_out->format('d/m/Y') . ' ' . $item->descrizione;
-                }
-            }
+            
+            $descrizione = $this->cleanDescription($descrizione);
 
             $linea = $DatiBeniServizi->addChild('DettaglioLinee');
             $linea->addChild('NumeroLinea', ($n+1));
@@ -385,35 +390,59 @@ class Send extends Primitive
             $linea = $DatiBeniServizi->addChild('DatiRiepilogo');
 
 
-
-            if(is_null($group->exemption_id))
+			if($this->invoice->split_payment)
             {
                 $linea->addChild('AliquotaIVA', $this->decimal($group->perc_iva));
                 $linea->addChild('ImponibileImporto', $this->decimal($group->imponibile));
                 $linea->addChild('Imposta', $this->decimal($group->iva));
-                $linea->addChild('EsigibilitaIVA', "I");
+                $linea->addChild('EsigibilitaIVA', "S");
+                $linea->addChild('RiferimentoNormativo', "Scissione dei pagamenti art. 17 ter DPR 633/72");
             }
             else
             {
-                $rn = $group->riferimento_normativo;
-                if($rn)
-                {
-                    if(strlen($rn) > 96)
-                    {
-                        $rn = substr($rn, 0, 96).'...';
-                    }
-                }
+	            if(is_null($group->exemption_id))
+	            {
+	                $linea->addChild('AliquotaIVA', $this->decimal($group->perc_iva));
+	                $linea->addChild('ImponibileImporto', $this->decimal($group->imponibile));
+	                $linea->addChild('Imposta', $this->decimal($group->iva));
+	                $linea->addChild('EsigibilitaIVA', "I");
+	            }
+	            else
+	            {
+	                $rn = $group->riferimento_normativo;
+	                if($rn)
+	                {
+	                    if(strlen($rn) > 96)
+	                    {
+	                        $rn = substr($rn, 0, 96).'...';
+	                    }
+	                }
 
-                $linea->addChild('AliquotaIVA', $this->decimal($group->perc_iva));
-                $linea->addChild('Natura', $group->natura);
-                $linea->addChild('ImponibileImporto', $this->decimal($group->imponibile));
-                $linea->addChild('Imposta', $this->decimal($group->iva));
-                $linea->addChild('RiferimentoNormativo', $rn);
-            }
+	                $linea->addChild('AliquotaIVA', $this->decimal($group->perc_iva));
+	                $linea->addChild('Natura', $group->natura);
+	                $linea->addChild('ImponibileImporto', $this->decimal($group->imponibile));
+	                $linea->addChild('Imposta', $this->decimal($group->iva));
+	                $linea->addChild('RiferimentoNormativo', $rn);
+	            }
+	        }
         }
 
     }
-
+	
+	public function cleanDescription($str)
+    {
+        $str = str_replace('€', 'EUR', $str);
+        $str = str_replace('£', 'GBP', $str);
+        $str = str_replace('$', 'USD', $str);
+        $str = str_replace('©',' Copyright', $str);
+        $str = str_replace('®', ' Registered', $str);
+        $str = str_replace('™',' Trademark', $str);
+        $str = str_replace('&',' e ', $str);
+        $str = str_replace('&',' e ', $str);
+        $str = str_replace('’', "'", $str);
+        return $str;
+    }
+    
     public function datiPagamento($body)
     {
         $DatiPagamento = $body->DatiPagamento;
@@ -421,8 +450,15 @@ class Send extends Primitive
         {
             $rate = explode(',', $this->invoice->rate);
             $n_rate = count($rate);
-            $total = $this->decimal($this->invoice->total);
-            $amount_rata = $this->decimal($total / $n_rate);
+            if($this->invoice->split_payment)
+            {
+                $total = $this->decimal($this->invoice->imponibile);
+            }
+            else
+            {
+                $total = $this->decimal($this->invoice->total);
+            }
+            $amount_rata = $this->decimal($total / 3);
             $amount_payed = 0;
 
             $DatiPagamento->CondizioniPagamento = 'TP01';
@@ -451,12 +487,19 @@ class Send extends Primitive
             $linea = $DatiPagamento->addChild('DettaglioPagamento');
             $linea->addChild('ModalitaPagamento', $this->payment_methods[$this->invoice->pagamento]);
             $linea->addChild('DataScadenzaPagamento', $this->invoice->data_scadenza->format('Y-m-d'));
-            $linea->addChild('ImportoPagamento', $this->decimal($this->invoice->total));
-        }
+            if($this->invoice->split_payment)
+            {
+                $linea->addChild('ImportoPagamento', $this->decimal($this->invoice->imponibile));
+            }
+            else
+            {
+                $linea->addChild('ImportoPagamento', $this->decimal($this->invoice->total+$this->invoice->rounding));
+            }
+            if ($this->cedente->IBAN != '')
+            {
+                $linea->addChild('IBAN', str_replace(' ', '', $this->cedente->IBAN));
+            }
 
-        if ($this->cedente->IBAN != '')
-        {
-            $linea->addChild('IBAN', str_replace(' ', '', $this->cedente->IBAN));
         }
     }
 

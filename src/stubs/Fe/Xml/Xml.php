@@ -17,11 +17,11 @@ class Xml extends Primitive
         $this->version = config('fe.version');
     }
 
-	public function createXml()
+	public function createXml($ver)
 	{
         try
         {
-    		return new \SimpleXMLElement(str_replace('$ver$', $this->version, File::get( __DIR__ . '/invoice.xml')));
+    		return new \SimpleXMLElement(str_replace('$ver$', $ver, File::get( __DIR__ . '/invoice.xml')));
         }
         catch(Exception $e)
         {
