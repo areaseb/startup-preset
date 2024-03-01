@@ -77,7 +77,7 @@ Route::get('register-lead', function(){
 
         if(intval(request('newsletter')))
         {
-            $list = NewsletterList::firstOrCreate(['nome' => 'Contatti da sito']);
+            $list = NewsletterList::firstOrCreate(['nome' => 'Contatti da sito', 'owner_id' => 1]);
             $contact->lists()->attach($list->id);
         }
     }
