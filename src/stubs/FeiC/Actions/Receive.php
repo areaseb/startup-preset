@@ -20,7 +20,7 @@ class Receive extends FeiC
     /**
      * Get expenses
      */
-    public function receive() {
+    public function receive() {	
         $apiInstance = new ReceivedDocumentsApi(
             new GuzzleHttpClient(),
             $this->config,
@@ -87,7 +87,7 @@ class Receive extends FeiC
 
     public function addCost($invoice)
     {
-        $company = $this->getOrAddCompany($invoice);   
+        $company = $this->getOrAddCompany($invoice, 1);   
 
         $date = Carbon::parse($invoice['date']);
         $imponibile = $invoice['amount_net'];
@@ -136,8 +136,7 @@ class Receive extends FeiC
         {
             $scadenza = $date;
         }
-
-        $company = Company::where('fe_id', $invoice['entity']['id'])->first();
+		
 
         $cost = Cost::create([
             "company_id" => $company->id,
@@ -153,6 +152,7 @@ class Receive extends FeiC
             "fe_id" => $invoice['id'],
             'saldato' => $paid,
         ]);
+        
 
         $this->notify($cost, "RECEIVE inserito nuovo costo da ".$company->rag_soc, 'info');
 

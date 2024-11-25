@@ -31,5 +31,22 @@ class FeiC extends Primitive
         $this->status = config('fe.status_feic');
 
         $this->config = Configuration::getDefaultConfiguration()->setAccessToken($this->token);
+
+		// GET COMPANY ID
+		/*
+		$apiInstance = new \FattureInCloud\Api\UserApi(
+			// If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
+			// This is optional, `GuzzleHttp\Client` will be used as default.
+			new GuzzleHttpClient(),
+			$this->config,
+		);
+		
+		try {
+			$result = $apiInstance->listUserCompanies();
+			print_r($result);
+		} catch (Exception $e) {
+			echo 'Exception when calling UserApi->listUserCompanies: ', $e->getMessage(), PHP_EOL;
+		}
+		*/
     }
 }

@@ -11,15 +11,19 @@ use Illuminate\Support\Facades\Schema;
 
 class Primitive extends Model
 {
-    public function getOrAddCompany($invoice) {
+    public function getOrAddCompany($invoice, $supplier = null) {
         // Check if provider exists
         $fe_company = $invoice['entity'];
 
         $fe_id = $fe_company['id'];
         $piva = $fe_company['vat_number'];
         $cf = $fe_company['tax_code'];
+        
+        if(is_null($supplier)){
+        	$supplier = 0;
+        }
 
-        $company = Company::where('fe_id', $fe_id)->first();
+        $company = Company::where('id', $fe_id)->first();
 
         if (!$company && $piva)
             $company = Company::where('piva', $piva)->first();
@@ -57,6 +61,7 @@ class Primitive extends Model
             $company->province = $province;
             $company->nation = $nation;
             $company->client_id = 3;
+            $company->supplier = $supplier;
             $company->save();
         }
         else
@@ -565,6 +570,19 @@ class Primitive extends Model
         ];
     }
 
+	public function getPercRitenuta($xml) {
+		if(isset($xml->FatturaElettronicaBody->DatiGenerali->DatiGeneraliDocumento->DatiRitenuta))
+			return $xml->FatturaElettronicaBody->DatiGenerali->DatiGeneraliDocumento->DatiRitenuta->AliquotaRitenuta;
+		
+		return null;		
+	}
+
+	public function getRitenuta($xml) {
+		if(isset($xml->FatturaElettronicaBody->DatiGenerali->DatiGeneraliDocumento->DatiRitenuta))
+			return $xml->FatturaElettronicaBody->DatiGenerali->DatiGeneraliDocumento->DatiRitenuta->ImportoRitenuta;
+		
+		return 0;	
+	}
 
     public function getTotale($xml)
     {
@@ -616,16 +634,26 @@ class Primitive extends Model
                     $exemption_id = Exemption::getIdByCode($dl->Natura);
                 }
 
+				// Search product by code
+				$product_id = Product::default();
+
+				if (isset($dl->CodiceArticolo) && isset($dl->CodiceArticolo->CodiceValore)) {
+					$product = Product::where('codice', $dl->CodiceArticolo->CodiceValore)->first();
+
+					if($product)
+						$product_id = $product->id;
+				}
+				
                 $item = new Item;
                     $item->invoice_id = $invoice->id;
-                    $item->product_id = Product::default();
+                    $item->product_id = $product_id;
                     $item->descrizione = $dl->Descrizione;
                     $item->qta = $this->decimal($dl->Quantita);
                     $item->importo = $this->decimal($dl->PrezzoUnitario);
                     $item->perc_iva = intval($dl->AliquotaIVA);
                     $item->iva = $iva;
                     $item->sconto = $sconto;
-                    $item->exemption_id = $exemption_id;
+                    $item->exemption_id = $exemption_id->id;
                 $item->save();
 
                 $this->notify($invoice, "SYNC aggiunto item" .$item->id. " in fattura ".$invoice->id, 'info');

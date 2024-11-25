@@ -316,6 +316,10 @@ class Send extends Primitive
         }
 
         $DatiGeneraliDocumento->addChild('ImportoTotaleDocumento', $this->decimal($this->invoice->total));
+        
+        if($this->invoice->riferimento){
+			$DatiGeneraliDocumento->addChild('Causale', $this->invoice->riferimento);
+		}	
 
         if ($this->invoice->pa_n_doc)
         {

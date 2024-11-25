@@ -25,16 +25,22 @@ return [
     ],
     'status_feic' => [
         0 => "not_sent",
-        1 => "attempt",
+        1 => "accepted",
         2 => "error",
         3 => "sent",
         4 => "discarded",
         5 => "not_delivered",
         6 => "missing",
-        7 => "accepted",
-        8 => "accepted",
+        7 => "accepted_2",
+        8 => "accepted_3",
         9 => "rejected",
         10 => "no_response"
+    ],
+    'vat_feic' => [
+        1 => 21,
+        3 => 35,
+        12 => 46,
+        4 => 287745
     ],
     'payment_methods' => [
         "RIDI" => "MP01",

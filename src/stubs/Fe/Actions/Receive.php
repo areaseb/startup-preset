@@ -179,8 +179,8 @@ class Receive extends Primitive
         {
             $perc_iva = (100 * abs($iva)) / abs($imponibile);
         }
-        $totale = $imponibile + $cassa + $iva - $ritenuta;
-        $netto = $imponibile + $cassa + $iva;
+        $totale = $imponibile + $cassa + $iva;
+        $netto = $imponibile + $cassa + $iva - $ritenuta;
 
         //nota di accredito
         if ($xml->FatturaElettronicaBody->DatiGenerali->DatiGeneraliDocumento->TipoDocumento == "TD04")

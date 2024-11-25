@@ -26,75 +26,247 @@ class Send extends FeiC
     }
 
     public function send() {
-        $test = env('TEST_MODE', true);
+		// Send invoices or register only
+		$send_einvoice = true;
+		
+		$company_id = $this->company_id;
+
+		if($this->invoice->fe_id) {
+			// Invoice already registered. Check and send
+			$document_id = $this->invoice->fe_id;
+
+			// Verify invoice
+			$apiInstance = new IssuedEInvoicesApi(
+				new Client(),
+				$this->config
+			);
+
+			try {
+				$result = $apiInstance->verifyEInvoiceXml($company_id, $document_id);
+
+				if (!$result['data']['success']) {
+					// Invoice invalid
+					$this->notify($this->invoice, 'Invalid e_invoice XML', 'info');
+				}
+
+			} catch (Exception $e) {
+				return 'Exception when calling IssuedEInvoicesApi->verifyEInvoiceXml: '. $e->getMessage();
+			}		
+
+			if($send_einvoice) {
+				try {
+					$result = $apiInstance->sendEInvoice($this->company_id, $document_id);
+				} catch (Exception $e) {
+					return 'Exception when calling IssuedEInvoicesApi->sendEInvoice: '. $e->getMessage(). PHP_EOL;
+				}
+			}
+
+			return 'done';
+		}
 
         $apiInstance = new IssuedDocumentsApi(
             new Client(),
             $this->config
         );
 
-        $company_id = $this->company_id;
         $document = new CreateIssuedDocumentRequest;
 
-        // API: https://github.com/fattureincloud/fattureincloud-php-sdk/blob/master/docs/Api/IssuedDocumentsApi.md#createissueddocument
-        // Model: https://developers.fattureincloud.it/api-reference/#post-/c/-company_id-/issued_documents
-
-        $company = $this->invoice->company;
-
-        // Invoice main structure
-        $data = [
-            "type" => "invoice",
-            "amount_net" => $this->invoice->imponibile,
-            "amount_vat" => $this->invoice->iva,
-            "date" => $this->invoice->data,
-            "next_due_date" => $this->invoice->data_scadenza,
-            "e_invoice" => true,
-        ];
+		$is_ritenuta = ($this->invoice->ritenuta > 0);
 
         // Invoice client
-        $data["entity"] = [
-            "name" => $company->rag_soc,
-            "vat_number" => $company->piva,
-            "tax_code" => $company->cf,
-            "address_street" => $company->address,
-            "address_postal_code" => $company->zip,
-            "address_city" => $company->city,
-            "address_province" => $company->province,
-            "country" => Country::where('iso2', $company->nation)->first()->nome,
-        ];
+        $company = $this->invoice->company;
+        if($company->prov){
+        	if($company->piva && substr($company->piva, 0, 1) != '9'){
+        		$entity = [
+		            "name" => $company->rag_soc,
+		            "vat_number" => $company->piva,
+		            "tax_code" => $company->cf,
+		            "address_street" => $company->address,
+		            "address_postal_code" => $company->zip,
+		            "address_city" => $company->city,
+		            "address_province" => $company->prov,
+		            "country" => Country::where('iso2', $company->nation)->first()->nome,	
+		        ];
+        	} else {
+        		$entity = [
+		            "name" => $company->rag_soc,
+		            "tax_code" => $company->cf,
+		            "address_street" => $company->address,
+		            "address_postal_code" => $company->zip,
+		            "address_city" => $company->city,
+		            "address_province" => $company->prov,
+		            "country" => Country::where('iso2', $company->nation)->first()->nome,	
+		        ];
+        	}
+        	
+        } else {
+        	$entity = [
+	            "name" => $company->rag_soc,
+	            "vat_number" => $company->piva,
+	            "tax_code" => $company->cf,
+	            "address_street" => $company->address,
+	            "address_postal_code" => $company->zip,
+	            "address_city" => $company->city,
+	            "country" => Country::where('iso2', $company->nation)->first()->nome,	
+	        ];
+        }
+        
+		if($company->pec)
+			$entity['certified_email'] = $company->pec;
 
-        // Add invoice items
+		$pubblica_amministrazione = ($this->invoice->tipo_doc == 'Pu');
+		
+		$sottoconto = 'P';
+		
+		if($this->invoice->tipo == 'R'){
+			$type = 'receipt';
+		} elseif($this->invoice->tipo == 'F'){
+			$type = 'invoice';
+		} elseif($this->invoice->tipo == 'A'){
+			$type = 'credit_note';
+		}
+		
+		if(!is_null($sottoconto)){
+			$data = [
+	            "entity" => $entity,
+	            "type" => $type,
+	            "numeration" => $sottoconto,
+	            "number" => $this->invoice->numero,
+	            "amount_net" => $this->invoice->total,
+	            "amount_vat" => $this->invoice->iva,
+				'gross_price' => $this->invoice->imponibile + $this->invoice->iva,
+	            "date" => $this->invoice->data->format('Y-m-d'),
+	            "next_due_date" => $this->invoice->data_scadenza->format('Y-m-d'),
+	            "e_invoice" => true,
+				"ei_data" => [
+					"vat_kind" => 'I',
+				],
+	        ];
+		} else {
+			$data = [
+	            "entity" => $entity,
+	            "type" => $type,
+	            "number" => $this->invoice->numero,
+	            "amount_net" => $this->invoice->total,
+	            "amount_vat" => $this->invoice->iva,
+				'gross_price' => $this->invoice->imponibile + $this->invoice->iva,
+	            "date" => $this->invoice->data->format('Y-m-d'),
+	            "next_due_date" => $this->invoice->data_scadenza->format('Y-m-d'),
+	            "e_invoice" => true,
+				"ei_data" => [
+					"vat_kind" => 'I',
+				],
+	        ];
+		}
+        
+
+		// Cup / SDI
+		if($pubblica_amministrazione) {
+			$data['entity']['type'] = 'pa';
+			$data['entity']['ei_code'] = $this->invoice->pa_cup;	
+			$data['ei_data']['cup'] = $this->invoice->pa_cup;		
+		} else {
+			$data['entity']['ei_code'] = $company->sdi;
+		}
+
+        // Add invoice items		
         $data['items_list'] = [];
+
+		$bollo_cliente = false;
+
         foreach($this->invoice->items as $item) {
-            $data['items_list'][] = [
+			$name = $item->product->nome;
+			$description = $item->descrizione;
+			$iva_id = 0;
+			$net_price = $item->importo * ((100 - $item->sconto) / 100);
+			$gross_price = ($item->importo + $item->iva) * ((100 - $item->sconto) / 100);
+			$not_taxable = false;
+
+			if($item->product->codice == 'BOL') {
+				$iva_id = 21;
+				$net_price = 2;
+				$gross_price = 2;
+				$not_taxable = true;
+
+				$bollo_cliente = true;
+			} elseif($item->exemption_id) {
+				$not_taxable = false; // To check
+				$iva_id = config('fe.vat_feic')[$item->exemption_id];		
+			}
+
+            $new_item = [
                 "product_id" => $item->product_id,
                 "code" => $item->product->codice,
-                "name" => $item->product->nome,
-                "net_price" => $item->importo,
-                "gross_price" => $item->importo + $item->sconto,
+                "name" => $name,
+                "net_price" => $net_price,
+				"gross_price" => $gross_price,
                 "discount" => $item->sconto,
                 "discount_highlight" => false,
                 "qty" => $item->qta,
-                "description" => $item->product->description,
+                "description" => $description,
+                "vat" => [
+                    "id" => $iva_id,					
+                ],                
+				"not_taxable" => $not_taxable,
             ];
-        }
 
-        $data['ei_data'] = [];
+			if($is_ritenuta)
+				$new_item['apply_withholding_taxes'] = true;
 
-        // Set payment information
-        // https://developers.fattureincloud.it/docs/guides/invoice-creation/#3%EF%B8%8F%E2%83%A3-step-three-e-invoice
+            $data['items_list'][] = $new_item;
+        }        
+
+        // Add IBAN
+/*        $settings = Setting::fe();
+        if ($settings->IBAN != '')
+        {
+            $data['ei_data']['bank_iban'] = str_replace(' ', '', $settings->IBAN);
+        }*/
+
+        $data['ei_data']['payment_method'] = config('fe.payment_methods')[$this->invoice->pagamento];				
+
+		$options = [];
+
+		// FORCE FIX PAYMENTS
+		$force_fix_payments = false;
+		if($force_fix_payments) {
+        	$options["fix_payments"] = true;
+		}
+		
+        /**
+         * Check if ritenuta acconto
+         */
+        if ($is_ritenuta) {			
+			/*
+            $net = $data['amount_net'] - $this->invoice->ritenuta;
+            $data['amount_net'] = $net;
+            $iva = $this->invoice->iva;
+            $data['amount_vat'] = $iva;
+            $data['gross_price'] = $net + $iva;
+			*/
+			$data["ei_withholding_tax_causal"] = "A";
+			$data["amount_withholding_tax_taxable"] = $this->invoice->imponibile;
+
+			if(!$bollo_cliente && !is_null($this->invoice->bollo)) {
+				$data['stamp_duty'] = $this->invoice->bollo;
+			}
+        } else {
+			$data["withholding_tax"] = 0;
+		}
+
+		// Set payment information
         $data['payments_list'] = [];
-        $payment = $this->invoice->pagamento;
 
         if($this->invoice->rate)
         {
+            $data['use_split_payment'] = true;
+
             $rate = explode(',', $this->invoice->rate);
             $n_rate = count($rate);
             $total = $this->decimal($this->invoice->total);
             $amount_rata = $this->decimal($total / $n_rate);
             $amount_payed = 0;
 
-            $payment_method = 'TP01';
             for($nr=0;$nr<$n_rate;$nr++)
             {
                 $new_payment = [];
@@ -114,77 +286,70 @@ class Send extends FeiC
 
                 $amount_payed +=  $amount_rata;
 
-                // Attach payment to invoice request
                 $data['payments_list'][] = $new_payment;
             }
         }
         else
         {
-            $payment_method = 'TP02';
+            $data['use_split_payment'] = false;
 
             $new_payment = [];
-            $new_payment['amount'] = $this->decimal($this->invoice->total);
+            $new_payment['amount'] = $this->invoice->total;
             $new_payment['due_date'] = $this->invoice->data_scadenza->format('Y-m-d');
 
-            // Attach payment to invoice request
             $data['payments_list'][] = $new_payment;
         }
-
-        // Add IBAN
-        $settings = Setting::fe();
-        if ($settings->IBAN != '')
-        {
-            $data['ei_data']['bank_iban'] = $settings->IBAN;
-        }
-
-        $data['ei_data']['payment_method'] = $payment_method;
-
+        
         // Set invoice data
         $document->setData($data);
+        $document->setOptions($options);
 
         try {
-            if (!$test) {
-                // Create invoice
-                // https://github.com/fattureincloud/fattureincloud-php-sdk/blob/master/docs/Api/IssuedDocumentsApi.md#createissueddocument
-                $result = $apiInstance->createIssuedDocument($company_id, $document);
+            // Create invoice
+            $result = $apiInstance->createIssuedDocument($company_id, $document);
 
-                $document_id = $result['data']['id'];
-            } else {
-                // Test data
-                $document_id = 99;
-            }
+            $document_id = $result['data']['id'];
+
         } catch (Exception $e) {
-            echo 'Exception when calling IssuedDocumentsApi->createIssuedDocument => ', $e->getMessage(), PHP_EOL;
+			var_dump($e->getMessage());
+            \Log::error('Exception when calling IssuedDocumentsApi->createIssuedDocument => '. $e->getMessage());
+            return 'Exception when calling IssuedDocumentsApi->createIssuedDocument => '. $e->getMessage(). PHP_EOL;
         }
 
-        if (!$test) {
-            // Verify invoice
-            // https://github.com/fattureincloud/fattureincloud-php-sdk/blob/master/docs/Api/IssuedEInvoicesApi.md#verifyeinvoicexml
-            $apiInstance = new IssuedEInvoicesApi(
-                new Client(),
-                $this->config
-            );
+        // Verify invoice
+        $apiInstance = new IssuedEInvoicesApi(
+            new Client(),
+            $this->config
+        );
 
-            try {
-                $result = $apiInstance->verifyEInvoiceXml($this->company_id, $document_id);
+        try {
+            $result = $apiInstance->verifyEInvoiceXml($company_id, $document_id);
 
-                if (!$result['data']['success']) {
-                    // Invoice invalid
-                    $this->notify($this->invoice, 'Invalid e_invoice XML', 'info');
-                }
-            } catch (Exception $e) {
-                echo 'Exception when calling IssuedEInvoicesApi->verifyEInvoiceXml: ', $e->getMessage(), PHP_EOL;
+            if (!$result['data']['success']) {
+                // Invoice invalid
+                $this->notify($this->invoice, 'Invalid e_invoice XML', 'info');
             }
 
-            // Send einvoice
-            // https://github.com/fattureincloud/fattureincloud-php-sdk/blob/master/docs/Api/IssuedEInvoicesApi.md#sendeinvoice
-            try {
-                $result = $apiInstance->sendEInvoice($this->company_id, $document_id);
-            } catch (Exception $e) {
-                echo 'Exception when calling IssuedEInvoicesApi->sendEInvoice: ', $e->getMessage(), PHP_EOL;
-            }
+        } catch (Exception $e) {
+			\Log::error('Exception when calling IssuedEInvoicesApi->verifyEInvoiceXml: '. $e->getMessage());
+            return 'Exception when calling IssuedEInvoicesApi->verifyEInvoiceXml: '. $e->getMessage();
         }
 
+		if($send_einvoice) {
+	        try {
+	            $result = $apiInstance->sendEInvoice($this->company_id, $document_id);	            	
+	        } catch (Exception $e) {
+	            \Log::error('Exception when calling IssuedEInvoicesApi->sendEInvoice: '. $e->getMessage());
+	            return 'Exception when calling IssuedEInvoicesApi->sendEInvoice: '. $e->getMessage(). PHP_EOL;
+	        }
+		}
+		     
+		// Save FE ID in database
+		$this->invoice->update([
+			'status' => 1, //status = presa in carico (1)
+			'fe_id' => $document_id,
+		]); 
+				
         return 'done';
     }
 }
