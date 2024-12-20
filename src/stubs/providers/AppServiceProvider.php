@@ -5,6 +5,9 @@ namespace App\Providers;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Mail\Mailer;
+use Illuminate\Pagination\Paginator;
+use Illuminate\Routing\UrlGenerator as LaravelUrlGenerator;
+use Areaseb\Core\Services\UrlGenerator;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -41,6 +44,16 @@ class AppServiceProvider extends ServiceProvider
 
             return $mailer;
         });
+        
+        
+        $this->app->singleton('url', function ($app) {
+		    return new \Areaseb\Core\Services\UrlGenerator(
+		        $app['router']->getRoutes(),
+		        $app['request']
+		    );
+		});
+        
+        $this->app->singleton(LaravelUrlGenerator::class, UrlGenerator::class);
     }
 
     /**
@@ -50,8 +63,18 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+    	$this->app->singleton(\Illuminate\Routing\UrlGenerator::class, function ($app) {
+	        return new \Areaseb\Core\Services\UrlGenerator(
+	            $app['router']->getRoutes(), // Ottieni la RouteCollection
+	            $app['request']              // Ottieni la richiesta corrente
+	        );
+	    });    
+    
         setlocale(LC_TIME,'it');
         date_default_timezone_set('Europe/Rome');
         Schema::defaultStringLength(191);
+
+		Paginator::useBootstrapFive();
+		Paginator::useBootstrapFour();
     }
 }
