@@ -37,8 +37,7 @@ return [
         'enabled' => true,
         'binary'  => '/usr/local/bin/wkhtmltopdf',
         'timeout' => false,
-        'options' => [],
-        'env'     => [],
+        'options' => ['enable-local-file-access' => true, 'load-error-handling' => 'ignore', 'load-media-error-handling' => 'ignore'],        'env'     => [],
     ],
 
     'image' => [
