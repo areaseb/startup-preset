@@ -6,6 +6,7 @@ use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Mail\Mailer;
 use Illuminate\Pagination\Paginator;
+use Symfony\Component\Mailer\Transport\Smtp\EsmtpTransport;
 use Illuminate\Routing\UrlGenerator as LaravelUrlGenerator;
 use Areaseb\Core\Services\UrlGenerator;
 
@@ -31,14 +32,11 @@ class AppServiceProvider extends ServiceProvider
             $from_email = $parameters['MAIL_FROM_ADDRESS'];
             $from_name = $parameters['MAIL_FROM_NAME'];
 
-            $transport = new \Swift_SmtpTransport($smtp_host, $smtp_port);
+            $transport = new EsmtpTransport($smtp_host, (int)$smtp_port);
             $transport->setUsername($smtp_username);
             $transport->setPassword($smtp_password);
-            $transport->setEncryption($smtp_encryption);
 
-            $swift_mailer = new \Swift_Mailer($transport);
-
-            $mailer = new Mailer($app->get('view'), $swift_mailer, $app->get('events'));
+            $mailer = new Mailer('custom', $app->get('view'), $transport, $app->get('events'));
             $mailer->alwaysFrom($from_email, $from_name);
             $mailer->alwaysReplyTo($from_email, $from_name);
 
