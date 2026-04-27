@@ -334,6 +334,17 @@ class Send extends Primitive
                 $DatiGeneraliDocumento->addChild('CodiceCIG', $this->invoice->pa_cig);
             }
         }
+
+		if ($this->invoice->linkedDdts->count() > 0)
+        {
+			foreach($this->invoice->linkedDdts as $ddt){
+				
+				$lineaDdt = $DatiGeneraliDocumento->addChild('DatiDDT');
+            	$lineaDdt->addChild('NumeroDDT', $ddt->ddt_n_doc);
+            	$lineaDdt->addChild('DataDDT', $ddt->ddt_data_doc->format('Y-m-d'));
+				
+			}
+		}
     }
 
     public function datiBeniServizi($body)
