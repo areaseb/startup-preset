@@ -299,6 +299,17 @@ class Send extends FeiC
 
             $data['payments_list'][] = $new_payment;
         }
+
+		// Set DDT
+        if($this->invoice->linkedDdts()->count() > 0){
+        	foreach($this->invoice->linkedDdts as $ddt) {
+        		$new_ddt = [
+        			'NumeroDDT' => (string) $ddt->numero,
+            		'DataDDT'   => (string) \Carbon\Carbon::parse($ddt->data)->format('Y-m-d'),
+        		];
+    			$data['ei_raw']['FatturaElettronicaBody']['DatiGenerali']['DatiDDT'][] = $new_ddt;       		
+        	}        	
+        }
         
         // Set invoice data
         $document->setData($data);
